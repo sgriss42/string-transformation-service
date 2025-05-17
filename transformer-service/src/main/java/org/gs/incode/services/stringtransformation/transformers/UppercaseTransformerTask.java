@@ -13,4 +13,9 @@ public class UppercaseTransformerTask implements TransformerTask {
 
     return input.toUpperCase();
   }
+
+  @Override
+  public String toString() {
+    return "[TO UPPERCASE TASK]";
+  }
 }

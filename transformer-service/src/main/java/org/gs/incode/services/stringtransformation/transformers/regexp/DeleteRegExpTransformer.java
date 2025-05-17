@@ -12,4 +12,9 @@ public class DeleteRegExpTransformer extends ReplaceExpTransformer {
   public DeleteRegExpTransformer(Pattern pattern) {
     super(pattern, "");
   }
+
+  @Override
+  public String toString() {
+    return "[REGEXP DELETE TASK] pattern %s".formatted(pattern.pattern());
+  }
 }

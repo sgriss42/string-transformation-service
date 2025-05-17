@@ -30,8 +30,8 @@ class DefaultTransformerFactoryTest {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
     Configuration configuration = new Configuration(TransformerType.REGEXP_REPLACE);
-    configuration.regexp("");
-    configuration.replacement("");
+    configuration.regexp("regexp");
+    configuration.replacement("replacement");
 
     TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
     assertNotNull(transformerTask);
@@ -43,7 +43,7 @@ class DefaultTransformerFactoryTest {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
     Configuration configuration = new Configuration(TransformerType.REGEXP_DELETE);
-    configuration.regexp("");
+    configuration.regexp("regexp");
 
     TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
     assertNotNull(transformerTask);

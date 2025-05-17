@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
 public abstract class RegExpTransformer implements TransformerTask {
-  private final Pattern pattern;
+  protected final Pattern pattern;
 
   /**
    * Constructs a transformer that works with all matches of the given pattern in the input string

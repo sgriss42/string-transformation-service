@@ -26,4 +26,10 @@ public class ReplaceExpTransformer extends RegExpTransformer {
   protected String doWithMatched(Matcher matcher) {
     return matcher.replaceAll(replacement);
   }
+
+  @Override
+  public String toString() {
+    return "[REGEXP REPLACE TASK] pattern %s, replacement %s"
+        .formatted(pattern.pattern(), replacement);
+  }
 }
