@@ -12,7 +12,7 @@ public class TransformationJobReport {
   private Status status;
   private String errorMessages;
   private UUID id;
-  private boolean isJobCompletedSuccessfully;
+  private Boolean isJobCompletedSuccessfully;
 
   private Instant createdAt;
   private Instant completedAt;

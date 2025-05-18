@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.dtos;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -29,5 +30,9 @@ public class TransformerTaskConfig {
 
   public void replacement(String replacement) {
     parameters.put(PARAMS_REPLACEMENT, replacement);
+  }
+
+  public Map<String, String> getParameters() {
+    return Collections.unmodifiableMap(parameters);
   }
 }

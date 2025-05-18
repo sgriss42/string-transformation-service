@@ -1,13 +1,13 @@
 package org.gs.incode.services.stringtransformation.application.usecases;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gs.incode.services.stringtransformation.application.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.job.Builder;
 import org.gs.incode.services.stringtransformation.job.TransformationJob;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
+import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.transformers.TransformerFactory;
 
 @Slf4j
@@ -51,7 +51,7 @@ public class TransformStringUsecase {
         report.getId(),
         report.getResult(),
         report.getErrorMessages(),
-        report.isJobCompletedSuccessfully());
+        report.getIsJobCompletedSuccessfully());
   }
 
   private TransformationJobReport prepareReport(TransformationCommand command) {

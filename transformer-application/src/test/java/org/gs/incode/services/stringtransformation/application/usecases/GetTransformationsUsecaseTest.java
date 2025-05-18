@@ -6,10 +6,10 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.List;
-import org.gs.incode.services.stringtransformation.application.ports.TransformationReportRepository;
-import org.gs.incode.services.stringtransformation.dtos.Page;
+import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
+import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,18 +31,21 @@ class GetTransformationsUsecaseTest {
   @Test
   void whenQueryIsOkThanReturnResult() {
     TransformationSearchQuery query = new TransformationSearchQuery();
-    TransformationResult result1 = new TransformationResult(Instant.now(), "id1", true, null);
+    TransformationResult result1 =
+        new TransformationResult(Instant.now(), Instant.now().plusMillis(100), "id1", true, null);
     TransformationResult result2 =
-        new TransformationResult(Instant.now(), "id2", false, "some error");
+        new TransformationResult(
+            Instant.now(), Instant.now().plusMillis(100), "id2", false, "some error");
 
-    Page<TransformationResult> expectedPage = new Page<>(List.of(result1, result2), 0, 0, 0);
+    PagedResponse<TransformationResult> expectedPagedResponse =
+        new PagedResponse<>(List.of(result1, result2), 0, 0, 0);
 
-    when(repository.findAll(query)).thenReturn(expectedPage);
+    when(repository.findAll(query)).thenReturn(expectedPagedResponse);
 
-    Page<TransformationResult> resultPage = usecase.execute(query);
+    PagedResponse<TransformationResult> resultPagedResponse = usecase.execute(query);
 
-    assertNotNull(resultPage);
-    assertEquals("id1", resultPage.getData().get(0).getId());
+    assertNotNull(resultPagedResponse);
+    assertEquals("id1", resultPagedResponse.getContent().get(0).getId());
     verify(repository).findAll(query);
   }
 

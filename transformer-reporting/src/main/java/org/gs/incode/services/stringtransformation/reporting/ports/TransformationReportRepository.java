@@ -1,6 +1,6 @@
-package org.gs.incode.services.stringtransformation.application.ports;
+package org.gs.incode.services.stringtransformation.reporting.ports;
 
-import org.gs.incode.services.stringtransformation.dtos.Page;
+import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
@@ -8,5 +8,5 @@ import org.gs.incode.services.stringtransformation.reporting.TransformationResul
 public interface TransformationReportRepository {
   void save(TransformationJobReport report);
 
-  Page<TransformationResult> findAll(TransformationSearchQuery query);
+  PagedResponse<TransformationResult> findAll(TransformationSearchQuery query);
 }

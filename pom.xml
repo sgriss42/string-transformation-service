@@ -13,6 +13,7 @@
         <module>transformer-application</module>
         <module>transformer-reporting</module>
         <module>commons</module>
+        <module>transformer-persistance</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,6 +23,7 @@
         <junit-jupiter.version>5.12.2</junit-jupiter.version>
         <mockito-junit-jupiter.version>5.17.0</mockito-junit-jupiter.version>
         <spring-boot-dependencies.version>3.4.5</spring-boot-dependencies.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -51,6 +53,11 @@
                 <version>${spring-boot-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -86,10 +93,16 @@
                             <artifactId>lombok</artifactId>
                             <version>1.18.38</version>
                         </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                     <release>17</release>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

@@ -7,15 +7,22 @@ import lombok.Getter;
 @Builder
 @Getter
 public class TransformationResult {
-  private final Instant timestamp;
+  private final Instant createdAt;
+  private final Instant completedAt;
   private final String id;
-  private final boolean isSuccessful;
-  private final String error;
+  private final boolean isJobCompletedSuccessfully;
+  private final String errorMessage;
 
-  public TransformationResult(Instant timestamp, String uuid, boolean isSuccessful, String error) {
-    this.timestamp = timestamp;
+  public TransformationResult(
+      Instant createdAt,
+      Instant completedAt,
+      String uuid,
+      boolean isJobCompletedSuccessfully,
+      String errorMessage) {
+    this.createdAt = createdAt;
     this.id = uuid;
-    this.isSuccessful = isSuccessful;
-    this.error = error;
+    this.isJobCompletedSuccessfully = isJobCompletedSuccessfully;
+    this.errorMessage = errorMessage;
+    this.completedAt = completedAt;
   }
 }
