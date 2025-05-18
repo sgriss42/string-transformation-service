@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.reporting;
 
+import java.time.Instant;
 import java.util.UUID;
 import lombok.Getter;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
@@ -13,6 +14,9 @@ public class TransformationJobReport {
   private UUID id;
   private boolean isJobCompletedSuccessfully;
 
+  private Instant createdAt;
+  private Instant completedAt;
+
   public void initializeReport(TransformationCommand command) {
     if (this.status != null) {
       throw new IllegalStateException("TransformationJobReport is already initialized");
@@ -20,6 +24,7 @@ public class TransformationJobReport {
     this.command = command;
     this.status = Status.NEW;
     this.id = UUID.randomUUID();
+    createdAt = Instant.now();
   }
 
   public void success(String result) {
@@ -28,9 +33,9 @@ public class TransformationJobReport {
           "TransformationJobReport is not in correct state for setting success result. Current status is %s"
               .formatted(status));
     }
-    status = Status.COMPLETED;
     this.result = result;
     isJobCompletedSuccessfully = true;
+    completeReport();
   }
 
   public void failed(String errorMessages) {
@@ -39,8 +44,13 @@ public class TransformationJobReport {
           "TransformationJobReport is not in correct state for setting failed result. Current status is %s"
               .formatted(status));
     }
-    status = Status.COMPLETED;
-    this.errorMessages = errorMessages;
     isJobCompletedSuccessfully = false;
+    this.errorMessages = errorMessages;
+    completeReport();
+  }
+
+  private void completeReport() {
+    status = Status.COMPLETED;
+    completedAt = Instant.now();
   }
 }

@@ -1,11 +1,11 @@
-package org.gs.incode.services.stringtransformation.application.transformation;
+package org.gs.incode.services.stringtransformation.application.usecases;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
-import org.gs.incode.services.stringtransformation.application.ports.TransformerReportRepository;
+import org.gs.incode.services.stringtransformation.application.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
@@ -22,12 +22,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class TransformStringUsecaseTest {
 
   @Mock private TransformerFactory mockTransformerFactory;
-  @Mock private TransformerReportRepository mockTransformerReportRepository;
+  @Mock private TransformationReportRepository mockTransformationReportRepository;
   private TransformStringUsecase usecase;
 
   @BeforeEach
   void setUp() {
-    usecase = new TransformStringUsecase(mockTransformerFactory, mockTransformerReportRepository);
+    usecase =
+        new TransformStringUsecase(mockTransformerFactory, mockTransformationReportRepository);
   }
 
   @Test
@@ -44,7 +45,7 @@ class TransformStringUsecaseTest {
     assertTrue(response.isOk());
     assertEquals(expectedResult, response.result());
     assertNull(response.errorMessages());
-    verify(mockTransformerReportRepository).save(any(TransformationJobReport.class));
+    verify(mockTransformationReportRepository).save(any(TransformationJobReport.class));
   }
 
   @Test
@@ -64,7 +65,7 @@ class TransformStringUsecaseTest {
     assertFalse(response.isOk());
     assertNull(response.result());
     assertTrue(response.errorMessages().startsWith("Transformation task #0"));
-    verify(mockTransformerReportRepository).save(any(TransformationJobReport.class));
+    verify(mockTransformationReportRepository).save(any(TransformationJobReport.class));
   }
 
   @Test
@@ -81,7 +82,7 @@ class TransformStringUsecaseTest {
     assertFalse(response.isOk());
     assertNull(response.result());
     assertTrue(response.errorMessages().endsWith("some problem during  job construction"));
-    verify(mockTransformerReportRepository).save(any(TransformationJobReport.class));
+    verify(mockTransformationReportRepository).save(any(TransformationJobReport.class));
   }
 
   @Test

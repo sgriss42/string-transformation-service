@@ -1,7 +1,7 @@
-package org.gs.incode.services.stringtransformation.application.transformation;
+package org.gs.incode.services.stringtransformation.application.usecases;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gs.incode.services.stringtransformation.application.ports.TransformerReportRepository;
+import org.gs.incode.services.stringtransformation.application.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
@@ -13,13 +13,13 @@ import org.gs.incode.services.stringtransformation.transformers.TransformerFacto
 @Slf4j
 public class TransformStringUsecase {
   private final TransformerFactory transformerFactory;
-  private final TransformerReportRepository transformerReportRepository;
+  private final TransformationReportRepository transformationReportRepository;
 
   public TransformStringUsecase(
       TransformerFactory transformerFactory,
-      TransformerReportRepository transformerReportRepository) {
+      TransformationReportRepository transformationReportRepository) {
     this.transformerFactory = transformerFactory;
-    this.transformerReportRepository = transformerReportRepository;
+    this.transformationReportRepository = transformationReportRepository;
   }
 
   public TransformationResponse execute(TransformationCommand command) {
@@ -42,7 +42,7 @@ public class TransformStringUsecase {
       report.failed("Unexpected error: " + e.getMessage());
     }
 
-    transformerReportRepository.save(report);
+    transformationReportRepository.save(report);
     return prepareTransformResponse(report);
   }
 
