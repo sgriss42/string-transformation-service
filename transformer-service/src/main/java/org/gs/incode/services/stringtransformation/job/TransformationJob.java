@@ -2,13 +2,11 @@ package org.gs.incode.services.stringtransformation.job;
 
 import java.util.Collections;
 import java.util.List;
-import lombok.AccessLevel;
 import lombok.Getter;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
 public class TransformationJob {
-  @Getter(value = AccessLevel.PACKAGE)
-  private final String input;
+  @Getter private final String input;
 
   private final List<TransformerTask> transformationTasks;
 

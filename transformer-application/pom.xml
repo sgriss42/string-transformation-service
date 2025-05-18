@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>transformer-service</artifactId>
+    <artifactId>transformer-application</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,9 +17,16 @@
             <artifactId>commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
+            <groupId>org.gs.incode.services.stringtransformation</groupId>
+            <artifactId>transformer-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gs.incode.services.stringtransformation</groupId>
+            <artifactId>transformer-reporting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -27,15 +34,16 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
-
     </dependencies>
-    <properties>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
-    </properties>
+
 </project>

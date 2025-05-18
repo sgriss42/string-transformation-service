@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.transformers;
+package org.gs.incode.services.stringtransformation.dtos;
 
 public enum TransformerType {
   TO_UPPERCASE,

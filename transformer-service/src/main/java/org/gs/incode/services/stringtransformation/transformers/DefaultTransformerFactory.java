@@ -2,6 +2,7 @@ package org.gs.incode.services.stringtransformation.transformers;
 
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.transformers.regexp.DeleteRegExpTransformer;
 import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceExpTransformer;
 
@@ -13,7 +14,7 @@ public class DefaultTransformerFactory implements TransformerFactory {
   }
 
   @Override
-  public TransformerTask construct(Configuration configuration) {
+  public TransformerTask construct(TransformerTaskConfig configuration) {
     if (configuration == null) {
       throw new IllegalArgumentException("configuration can not be null!");
     }
@@ -26,7 +27,7 @@ public class DefaultTransformerFactory implements TransformerFactory {
     };
   }
 
-  protected static Pattern createPatternFromString(Configuration configuration) {
+  protected static Pattern createPatternFromString(TransformerTaskConfig configuration) {
     if (StringUtils.isBlank(configuration.regexp())) {
       throw new IllegalArgumentException("Regular expression cannot be null or blank");
     }

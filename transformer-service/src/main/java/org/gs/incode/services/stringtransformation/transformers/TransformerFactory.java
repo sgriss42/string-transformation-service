@@ -1,6 +1,8 @@
 package org.gs.incode.services.stringtransformation.transformers;
 
+import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
+
 public interface TransformerFactory {
 
-  TransformerTask construct(Configuration configuration);
+  TransformerTask construct(TransformerTaskConfig configuration);
 }
