@@ -11,7 +11,7 @@ class UppercaseTransformerTaskTest {
   @Test
   void whenStringIsNullThanThrowsNPEException() {
     UppercaseTransformerTask transformer = new UppercaseTransformerTask();
-    assertThrows(NullPointerException.class, () -> transformer.apply(null));
+    assertThrows(IllegalArgumentException.class, () -> transformer.apply(null));
   }
 
   @ParameterizedTest

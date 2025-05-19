@@ -8,9 +8,11 @@ import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceEx
 
 public class DefaultTransformerFactory implements TransformerFactory {
   private final UppercaseTransformerTask uppercaseTransformerTask;
+  private final LowercaseTransformerTask lowercaseTransformerTask;
 
   public DefaultTransformerFactory() {
     uppercaseTransformerTask = new UppercaseTransformerTask();
+    lowercaseTransformerTask = new LowercaseTransformerTask();
   }
 
   @Override
@@ -20,6 +22,7 @@ public class DefaultTransformerFactory implements TransformerFactory {
     }
     return switch (configuration.getType()) {
       case TO_UPPERCASE -> uppercaseTransformerTask;
+      case TO_LOWERCASE -> lowercaseTransformerTask;
       case REGEXP_REPLACE ->
           new ReplaceExpTransformer(
               createPatternFromString(configuration), configuration.replacement());

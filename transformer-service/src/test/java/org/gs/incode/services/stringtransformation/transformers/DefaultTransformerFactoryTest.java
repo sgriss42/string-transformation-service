@@ -29,6 +29,21 @@ class DefaultTransformerFactoryTest {
   }
 
   @Test
+  void whenLowercaseTransformerRequestedThanReturnTransformer() {
+
+    TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
+    TransformerTaskConfig configuration = new TransformerTaskConfig(TransformerType.TO_LOWERCASE);
+
+    TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
+    assertNotNull(transformerTask);
+    assertInstanceOf(LowercaseTransformerTask.class, transformerTask);
+    assertSame(
+        transformerTask,
+        defaultTransformerFactory.construct(
+            new TransformerTaskConfig(TransformerType.TO_LOWERCASE)));
+  }
+
+  @Test
   void whenReplaceRegExpTransformerRequestedThanReturnTransformer() {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();

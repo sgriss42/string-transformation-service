@@ -1,7 +1,7 @@
 package org.gs.incode.services.stringtransformation.transformers;
 
 // TODO INTRODUCE LOCALE SUPPORT!!!
-public class UppercaseTransformerTask implements TransformerTask {
+public class LowercaseTransformerTask implements TransformerTask {
 
   @Override
   public String apply(String input) {
@@ -12,11 +12,11 @@ public class UppercaseTransformerTask implements TransformerTask {
       return input;
     }
 
-    return input.toUpperCase();
+    return input.toLowerCase();
   }
 
   @Override
   public String toString() {
-    return "[TO UPPERCASE TASK]";
+    return "[TO LOWERCASE TASK]";
   }
 }
