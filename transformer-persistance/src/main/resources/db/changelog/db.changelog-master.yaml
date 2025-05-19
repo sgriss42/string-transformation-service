@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: you
+      author: sg
       changes:
         - createTable:
             tableName: transaction_jobs
@@ -37,7 +37,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 2
-      author: you
+      author: sg
       changes:
         - createTable:
             tableName: transaction_task
@@ -63,3 +63,13 @@ databaseChangeLog:
         - addPrimaryKey:
             tableName: transaction_task
             columnNames: id, job_id
+  - changeSet:
+      id: add-btree-index-created-at
+      author: sg
+      changes:
+        - sql:
+            dbms: postgresql
+            splitStatements: false
+            sql: |
+              CREATE INDEX idx_transaction_jobs_created_at
+              ON transaction_jobs (created_at) USING BTREE;
