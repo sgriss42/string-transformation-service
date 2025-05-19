@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: you
+      changes:
+        - createTable:
+            tableName: transaction_jobs
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: input
+                  type: VARCHAR(10000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: result
+                  type: CLOB
+              - column:
+                  name: error_message
+                  type: VARCHAR(500)
+              - column:
+                  name: is_job_completed_successfully
+                  type: BOOLEAN
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: completed_at
+                  type: TIMESTAMP
+
+  - changeSet:
+      id: 2
+      author: you
+      changes:
+        - createTable:
+            tableName: transaction_task
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: job_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parameters
+                  type: TEXT
+        - addPrimaryKey:
+            tableName: transaction_task
+            columnNames: id, job_id

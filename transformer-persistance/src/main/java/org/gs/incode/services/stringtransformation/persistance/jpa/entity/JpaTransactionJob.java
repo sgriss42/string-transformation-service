@@ -1,6 +1,7 @@
 package org.gs.incode.services.stringtransformation.persistance.jpa.entity;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "transaction_jobs")
 @Entity
-public class JpaTransactionJob {
+public class JpaTransactionJob implements Serializable {
   @Id private UUID id;
 
   @Column(length = 10_000, nullable = false)
@@ -32,6 +33,7 @@ public class JpaTransactionJob {
   @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<JpaTransformerTask> transformers = new ArrayList<>();
 
+  // TODO: validation  should be gt than createdAt
   @Column(name = "completed_at")
   private Instant completedAt;
 }

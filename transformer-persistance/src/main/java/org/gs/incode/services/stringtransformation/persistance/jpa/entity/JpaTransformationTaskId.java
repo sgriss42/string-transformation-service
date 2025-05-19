@@ -11,20 +11,19 @@ import lombok.*;
 @AllArgsConstructor
 public class JpaTransformationTaskId implements Serializable {
 
-  private Long id;
-
-  private JpaTransactionJob execution;
+  private Integer id;
+  private JpaTransactionJob job;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     JpaTransformationTaskId that = (JpaTransformationTaskId) o;
-    return Objects.equals(id, that.id) && Objects.equals(execution, that.execution);
+    return Objects.equals(id, that.id) && Objects.equals(job, that.job);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, execution);
+    return Objects.hash(id, job);
   }
 }

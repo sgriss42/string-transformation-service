@@ -1,0 +1,22 @@
+spring:
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+      org.hibernate.loader: TRACE
+  datasource:
+    url: jdbc:h2:mem:testdbOne;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  test:
+    database:
+      replace: none
