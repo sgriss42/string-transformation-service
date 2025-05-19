@@ -11,8 +11,11 @@ import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransactionJob;
+import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransformerTask;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
+import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
+import org.gs.incode.services.stringtransformation.reporting.Transformer;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
@@ -25,8 +28,8 @@ class JpaTransactionJobMapperTest {
   void toPagedResponseDto() {
     JpaTransactionJobMapper mapper = Mappers.getMapper(JpaTransactionJobMapper.class);
 
-    JpaTransactionJob entity = new JpaTransactionJob();
-    Page<JpaTransactionJob> page = new PageImpl<>(List.of(entity), PageRequest.of(10, 100), 9999);
+    JpaTransactionJob jpaJob = new JpaTransactionJob();
+    Page<JpaTransactionJob> page = new PageImpl<>(List.of(jpaJob), PageRequest.of(10, 100), 9999);
     PagedResponse<TransformationResult> pagedResponse = mapper.toPagedResponseDto(page);
     assertEquals(10, pagedResponse.getPage());
     assertEquals(100, pagedResponse.getSize());
@@ -38,22 +41,53 @@ class JpaTransactionJobMapperTest {
   }
 
   @Test
-  void toDto() {
+  void toTransformationResult() {
     JpaTransactionJobMapper mapper = Mappers.getMapper(JpaTransactionJobMapper.class);
-    JpaTransactionJob e1 = new JpaTransactionJob();
-    e1.setId(UUID.randomUUID());
-    e1.setIsJobCompletedSuccessfully(true);
-
-    e1.setCreatedAt(Instant.now());
-    e1.setErrorMessage("Error");
-    e1.setCompletedAt(Instant.now());
-    TransformationResult transformationResult = mapper.toDto(e1);
-    assertEquals(e1.getId().toString(), transformationResult.getId());
-    assertEquals(e1.getCompletedAt(), transformationResult.getCompletedAt());
-    assertEquals(e1.getCreatedAt(), transformationResult.getCreatedAt());
-    assertEquals(e1.getErrorMessage(), transformationResult.getErrorMessage());
+    JpaTransactionJob jpaJob = getJpaTransactionJob();
+    TransformationResult transformationResult = mapper.toTransformationResult(jpaJob);
+    assertEquals(jpaJob.getId().toString(), transformationResult.getId());
+    assertEquals(jpaJob.getCompletedAt(), transformationResult.getCompletedAt());
+    assertEquals(jpaJob.getCreatedAt(), transformationResult.getCreatedAt());
+    assertEquals(jpaJob.getErrorMessage(), transformationResult.getErrorMessage());
     assertEquals(
-        e1.getIsJobCompletedSuccessfully(), transformationResult.isJobCompletedSuccessfully());
+        jpaJob.getIsJobCompletedSuccessfully(), transformationResult.isJobCompletedSuccessfully());
+  }
+
+  @Test
+  void toTransformationResultWithTransformers() {
+    JpaTransactionJobMapper mapper = Mappers.getMapper(JpaTransactionJobMapper.class);
+    JpaTransactionJob jpaJob = getJpaTransactionJob();
+    List<TransformationResultWithTransformers> transformationResults =
+        mapper.toTransformationResultWithTransformerList(List.of(jpaJob));
+    TransformationResultWithTransformers transformationResult = transformationResults.get(0);
+    assertEquals(jpaJob.getId().toString(), transformationResult.getId());
+    assertEquals(jpaJob.getCompletedAt(), transformationResult.getCompletedAt());
+    assertEquals(jpaJob.getCreatedAt(), transformationResult.getCreatedAt());
+    assertEquals(jpaJob.getErrorMessage(), transformationResult.getErrorMessage());
+    assertEquals(
+        jpaJob.getIsJobCompletedSuccessfully(), transformationResult.isJobCompletedSuccessfully());
+
+    Transformer transformer = transformationResult.getTransformers().get(0);
+
+    assertEquals(1, transformer.getId());
+    assertEquals(TransformerType.TO_LOWERCASE, transformer.getType());
+  }
+
+  private static JpaTransactionJob getJpaTransactionJob() {
+    JpaTransactionJob jpaJob = new JpaTransactionJob();
+    jpaJob.setId(UUID.randomUUID());
+    jpaJob.setIsJobCompletedSuccessfully(true);
+    JpaTransformerTask jpaTransformerTask = new JpaTransformerTask();
+    jpaTransformerTask.setId(1);
+    jpaTransformerTask.setJob(jpaJob);
+    jpaTransformerTask.setParameters("");
+    jpaTransformerTask.setType(TransformerType.TO_LOWERCASE);
+    jpaJob.setTransformers(List.of(jpaTransformerTask));
+
+    jpaJob.setCreatedAt(Instant.now());
+    jpaJob.setErrorMessage("Error");
+    jpaJob.setCompletedAt(Instant.now());
+    return jpaJob;
   }
 
   @Test

@@ -12,6 +12,8 @@ import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTra
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransformerTask;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
+import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
+import org.gs.incode.services.stringtransformation.reporting.Transformer;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 
@@ -20,10 +22,18 @@ import org.springframework.data.domain.Page;
     componentModel = MappingConstants.ComponentModel.SPRING)
 public interface JpaTransactionJobMapper {
 
-  TransformationResult toDto(JpaTransactionJob jpaTransactionJob);
+  TransformationResult toTransformationResult(JpaTransactionJob jpaTransactionJob);
 
   @Mapping(source = "number", target = "page")
   PagedResponse<TransformationResult> toPagedResponseDto(Page<JpaTransactionJob> jpaTransactionJob);
+
+  TransformationResultWithTransformers toTransformationResultWithTransformers(
+      JpaTransactionJob jpaTransactionJob);
+
+  List<TransformationResultWithTransformers> toTransformationResultWithTransformerList(
+      List<JpaTransactionJob> list);
+
+  List<Transformer> toTransformerList(List<JpaTransformerTask> list);
 
   JpaTransactionJob toEntity(TransformationJobReport report);
 

@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.persistance.adapters;
 
+import java.time.Instant;
 import java.util.List;
 import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
@@ -8,6 +9,7 @@ import org.gs.incode.services.stringtransformation.persistance.jpa.repository.Tr
 import org.gs.incode.services.stringtransformation.persistance.mapper.JpaTransactionJobMapper;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
+import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,8 +40,15 @@ public class TransformationReportAdapter implements TransformationReportReposito
         repository.findAllByCompletedAtBetween(
             query.getFrom(), query.getTo(), PageRequest.of(query.getPage(), query.getSize()));
 
-    List<TransformationResult> transformationResults = page.stream().map(mapper::toDto).toList();
+    List<TransformationResult> transformationResults =
+        page.stream().map(mapper::toTransformationResult).toList();
     return new PagedResponse<>(
         transformationResults, page.getTotalPages(), page.getNumber(), page.getSize());
+  }
+
+  @Override
+  public List<TransformationResultWithTransformers> findAllForTimeRange(Instant from, Instant to) {
+    List<JpaTransactionJob> list = repository.findAllByCompletedAtBetween(from, to);
+    return mapper.toTransformationResultWithTransformerList(list);
   }
 }

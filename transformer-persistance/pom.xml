@@ -34,6 +34,11 @@
             <artifactId>mapstruct</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${commons-csv.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -60,5 +65,8 @@
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
+    <properties>
+        <commons-csv.version>1.8</commons-csv.version>
+    </properties>
 
 </project>

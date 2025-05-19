@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.stream.IntStream;
-
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransactionJob;
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransformerTask;
@@ -26,21 +25,20 @@ class TransformationJobRepositoryTest {
   @Test
   void testSaveAndRead() {
     UUID jobId = UUID.randomUUID();
-    JpaTransactionJob job = new JpaTransactionJob();
-    job.setId(jobId);
-    job.setInput("Test input string");
-    job.setCreatedAt(Instant.now());
-    job.setIsJobCompletedSuccessfully(true);
+    JpaTransactionJob jpaJob = new JpaTransactionJob();
+    jpaJob.setId(jobId);
+    jpaJob.setInput("Test input string");
+    jpaJob.setCreatedAt(Instant.now());
+    jpaJob.setIsJobCompletedSuccessfully(true);
 
     JpaTransformerTask task = new JpaTransformerTask();
     task.setId(1);
-    task.setJob(job);
+    task.setJob(jpaJob);
     task.setType(TransformerType.TO_UPPERCASE);
-    task.setParameters("{ \"uppercase\": true }");
 
-    job.getTransformers().add(task);
+    jpaJob.getTransformers().add(task);
 
-    repository.save(job);
+    repository.save(jpaJob);
     JpaTransactionJob loaded = repository.findById(jobId).orElseThrow();
 
     assertNotNull(loaded);
@@ -48,7 +46,6 @@ class TransformationJobRepositoryTest {
     assertEquals(1, loaded.getTransformers().size());
     assertEquals(TransformerType.TO_UPPERCASE, loaded.getTransformers().get(0).getType());
   }
-
 
   @Test
   void findAllByCompletedAtBetween_shouldReturnAllInRange() {
@@ -58,16 +55,17 @@ class TransformationJobRepositoryTest {
     repository.save(createJobWithCompletedAt("Start", from));
 
     IntStream.of(6, 12, 18)
-            .mapToObj(h -> from.plus(h, ChronoUnit.HOURS))
-            .map(t -> createJobWithCompletedAt("Middle", t))
-            .forEach(repository::save);
+        .mapToObj(h -> from.plus(h, ChronoUnit.HOURS))
+        .map(t -> createJobWithCompletedAt("Middle", t))
+        .forEach(repository::save);
 
     repository.save(createJobWithCompletedAt("End", to.minusSeconds(1)));
 
     var results = repository.findAllByCompletedAtBetween(from, to, PageRequest.of(0, 10));
 
-    assertEquals(5,results.getContent().size());
+    assertEquals(5, results.getContent().size());
   }
+
   private JpaTransactionJob createJobWithCompletedAt(String inputPrefix, Instant createdAt) {
     JpaTransactionJob job = new JpaTransactionJob();
     job.setId(UUID.randomUUID());

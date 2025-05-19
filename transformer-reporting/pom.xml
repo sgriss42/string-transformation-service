@@ -16,6 +16,14 @@
         <groupId>org.gs.incode.services.stringtransformation</groupId>
         <artifactId>commons</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+    </dependency>
 </dependencies>
 
 </project>
