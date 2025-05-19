@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.persistance.mapper;
 
+import static org.gs.incode.services.stringtransformation.dtos.TransformerType.TO_UPPERCASE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -73,7 +74,7 @@ class JpaTransactionJobMapperTest {
     assertEquals(TransformerType.TO_LOWERCASE, transformer.getType());
   }
 
-  private static JpaTransactionJob getJpaTransactionJob() {
+  private JpaTransactionJob getJpaTransactionJob() {
     JpaTransactionJob jpaJob = new JpaTransactionJob();
     jpaJob.setId(UUID.randomUUID());
     jpaJob.setIsJobCompletedSuccessfully(true);
@@ -95,14 +96,14 @@ class JpaTransactionJobMapperTest {
     JpaTransactionJobMapper mapper = Mappers.getMapper(JpaTransactionJobMapper.class);
     TransformationJobReport transformationJobReport = new TransformationJobReport();
 
-    TransformerTaskConfig config = new TransformerTaskConfig(TransformerType.TO_UPPERCASE);
+    TransformerTaskConfig config = new TransformerTaskConfig(TO_UPPERCASE);
     config.regexp("regexp");
     config.replacement("replacement");
     transformationJobReport.initializeReport(new TransformationCommand("input", List.of(config)));
     transformationJobReport.success("result");
 
     JpaTransactionJob jpaTransactionJob = mapper.toEntity(transformationJobReport);
-
+    assertEquals("input", jpaTransactionJob.getInput());
     assertEquals(transformationJobReport.getId(), jpaTransactionJob.getId());
     assertEquals(transformationJobReport.getResult(), jpaTransactionJob.getResult());
     assertEquals(
@@ -114,6 +115,7 @@ class JpaTransactionJobMapperTest {
 
     assertEquals(1, jpaTransactionJob.getTransformers().size());
     assertEquals(0, jpaTransactionJob.getTransformers().get(0).getId());
+    assertEquals(TO_UPPERCASE, jpaTransactionJob.getTransformers().get(0).getType());
     assertEquals(jpaTransactionJob, jpaTransactionJob.getTransformers().get(0).getJob());
     assertEquals(
         "{\"regexp\":\"regexp\",\"replacement\":\"replacement\"}",

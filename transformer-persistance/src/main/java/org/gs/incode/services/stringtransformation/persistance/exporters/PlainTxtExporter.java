@@ -6,7 +6,7 @@ import org.apache.commons.text.StringSubstitutor;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 
 public class PlainTxtExporter implements Exporter<TransformerUsageReport> {
-  private static final  String DEFAULT_TEMPLATE =
+  private static final String DEFAULT_TEMPLATE =
       """
   Report for
   \t\tFROM        :${FROM}

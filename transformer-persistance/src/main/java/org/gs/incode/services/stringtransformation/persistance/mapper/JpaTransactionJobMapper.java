@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
+import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransactionJob;
 import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTransformerTask;
@@ -42,14 +43,17 @@ public interface JpaTransactionJobMapper {
       @MappingTarget JpaTransactionJob entity, TransformationJobReport report) {
     Type typeObject = new TypeToken<HashMap<String, String>>() {}.getType();
     Gson gson = new Gson();
-    List<TransformerTaskConfig> transformerTaskConfigs =
-        report.getCommand().getTransformerTaskConfigs();
+    TransformationCommand command = report.getCommand();
+    entity.setInput(command.input());
+    List<TransformerTaskConfig> transformerTaskConfigs = command.transformerTaskConfigs();
     List<JpaTransformerTask> transformers = new ArrayList<>();
     for (int i = 0; i < transformerTaskConfigs.size(); ++i) {
       JpaTransformerTask jpaTransformerTask = new JpaTransformerTask();
       jpaTransformerTask.setId(i);
+      TransformerTaskConfig transformerTaskConfig = transformerTaskConfigs.get(i);
+      jpaTransformerTask.setType(transformerTaskConfig.getType());
       jpaTransformerTask.setJob(entity);
-      String gsonData = gson.toJson(transformerTaskConfigs.get(i).getParameters(), typeObject);
+      String gsonData = gson.toJson(transformerTaskConfig.getParameters(), typeObject);
       jpaTransformerTask.setParameters(gsonData);
       transformers.add(jpaTransformerTask);
     }
