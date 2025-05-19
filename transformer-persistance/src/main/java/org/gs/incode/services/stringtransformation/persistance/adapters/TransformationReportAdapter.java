@@ -13,8 +13,10 @@ import org.gs.incode.services.stringtransformation.reporting.TransformationResul
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Component
 public class TransformationReportAdapter implements TransformationReportRepository {
 
   private final TransformationJobRepository repository;

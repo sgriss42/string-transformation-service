@@ -43,7 +43,7 @@ public interface JpaTransactionJobMapper {
     Type typeObject = new TypeToken<HashMap<String, String>>() {}.getType();
     Gson gson = new Gson();
     List<TransformerTaskConfig> transformerTaskConfigs =
-        report.getCommand().transformerTaskConfigs();
+        report.getCommand().getTransformerTaskConfigs();
     List<JpaTransformerTask> transformers = new ArrayList<>();
     for (int i = 0; i < transformerTaskConfigs.size(); ++i) {
       JpaTransformerTask jpaTransformerTask = new JpaTransformerTask();
