@@ -1,9 +1,14 @@
 package org.gs.incode.services.stringtransformation.container.controllers.reports;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
@@ -53,5 +58,26 @@ class TransformationSearchRequestMapperTest {
             IllegalArgumentException.class,
             () -> mapper.searchRequestToTransformationSearchQuery(request, null));
     assertEquals("Pageable must not be null!", ex.getMessage());
+  }
+
+  @Test
+  public void testTransformationReportRequestToDownloadReportQuery() {
+
+    LocalDate date = LocalDate.of(2025, 5, 20);
+    String format = "csv"; // or whatever enum you're using
+
+    DownloadReportRequest request = new DownloadReportRequest();
+    request.setDate(date);
+    request.setFormat(format);
+
+    DownloadReportQuery query =
+        mapper.transformationReportRequestToDownloadReportQuery(
+            request, mock(ByteArrayOutputStream.class));
+    ZonedDateTime expectedFrom = date.atStartOfDay(ZoneOffset.UTC);
+    ZonedDateTime expectedTo = expectedFrom.plusDays(1);
+
+    assertEquals(expectedFrom, query.getFrom());
+    assertEquals(expectedTo, query.getTo());
+    assertEquals(format.toUpperCase(), query.getFormat());
   }
 }

@@ -1,7 +1,11 @@
 package org.gs.incode.services.stringtransformation.container.controllers.reports;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
+import org.gs.incode.services.stringtransformation.application.usecases.DownloadTransformerUsageReportUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.GetTransformationsUsecase;
 import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
@@ -16,12 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/")
 public class TransformationReportsController {
 
-  private final GetTransformationsUsecase usecase;
+  private final GetTransformationsUsecase getTransformationsUsecase;
+  private final DownloadTransformerUsageReportUsecase downloadTransformerUsageReportUsecase;
   private final TransformationSearchRequestMapper mapper;
 
   public TransformationReportsController(
-      GetTransformationsUsecase usecase, TransformationSearchRequestMapper mapper) {
-    this.usecase = usecase;
+      GetTransformationsUsecase getTransformationsUsecase,
+      DownloadTransformerUsageReportUsecase downloadTransformerUsageReportUsecase,
+      TransformationSearchRequestMapper mapper) {
+    this.getTransformationsUsecase = getTransformationsUsecase;
+    this.downloadTransformerUsageReportUsecase = downloadTransformerUsageReportUsecase;
     this.mapper = mapper;
   }
 
@@ -30,6 +38,28 @@ public class TransformationReportsController {
       @Valid TransformationSearchRequest transformationSearchRequest, Pageable pageable) {
     TransformationSearchQuery query =
         mapper.searchRequestToTransformationSearchQuery(transformationSearchRequest, pageable);
-    return usecase.execute(query);
+    return getTransformationsUsecase.execute(query);
+  }
+
+  @GetMapping("/transformations/report")
+  public void downloadCsv(
+      HttpServletResponse response, @Valid DownloadReportRequest downloadReportRequest)
+      throws IOException {
+
+    prepareHeaders(response, downloadReportRequest);
+    DownloadReportQuery query =
+        mapper.transformationReportRequestToDownloadReportQuery(
+            downloadReportRequest, response.getOutputStream());
+    downloadTransformerUsageReportUsecase.execute(query);
+  }
+
+  private void prepareHeaders(
+      HttpServletResponse response, DownloadReportRequest downloadReportRequest) {
+    response.setContentType("application/octet-stream");
+    response.setHeader(
+        "Content-Disposition", "attachment; filename=\"" + downloadReportRequest.name() + "\"");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
   }
 }

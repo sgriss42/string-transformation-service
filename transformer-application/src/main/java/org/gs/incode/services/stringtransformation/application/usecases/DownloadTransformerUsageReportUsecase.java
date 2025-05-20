@@ -9,17 +9,17 @@ import org.gs.incode.services.stringtransformation.reporting.ports.ReportExporte
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 
 @Slf4j
-public class CreateTransformerUsageReportUsecase {
+public class DownloadTransformerUsageReportUsecase {
   private final TransformationReportRepository repository;
   private final ReportExporter<TransformerUsageReport> exporter;
 
-  public CreateTransformerUsageReportUsecase(
+  public DownloadTransformerUsageReportUsecase(
       TransformationReportRepository repository, ReportExporter<TransformerUsageReport> exporter) {
     this.repository = repository;
     this.exporter = exporter;
   }
 
-  public void execute(@Valid ExportStatesQuery query) {
+  public void execute(@Valid DownloadReportQuery query) {
     log.info("Report requested {}", query);
     TransformerUsageReport transformerUsageReport =
         new TransformerUsageReport(query.getFrom(), query.getTo());

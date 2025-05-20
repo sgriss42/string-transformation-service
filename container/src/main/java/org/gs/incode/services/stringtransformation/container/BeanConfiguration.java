@@ -1,7 +1,14 @@
 package org.gs.incode.services.stringtransformation.container;
 
+import java.util.Map;
+import org.gs.incode.services.stringtransformation.application.usecases.DownloadTransformerUsageReportUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.GetTransformationsUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.TransformStringUsecase;
+import org.gs.incode.services.stringtransformation.persistance.adapters.TransformerUsageReportExporterAdapter;
+import org.gs.incode.services.stringtransformation.persistance.exporters.CsvExporter;
+import org.gs.incode.services.stringtransformation.persistance.exporters.PlainTxtExporter;
+import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
+import org.gs.incode.services.stringtransformation.reporting.ports.ReportExporter;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.transformers.DefaultTransformerFactory;
 import org.gs.incode.services.stringtransformation.transformers.TransformerFactory;
@@ -26,5 +33,20 @@ public class BeanConfiguration {
   GetTransformationsUsecase getTransformationsUsecase(
       TransformationReportRepository transformationReportRepository) {
     return new GetTransformationsUsecase(transformationReportRepository);
+  }
+
+  @Bean
+  DownloadTransformerUsageReportUsecase downloadTransformerUsageReportUsecase(
+      TransformationReportRepository transformationReportRepository,
+      ReportExporter<TransformerUsageReport> transformerUsageReportExporter) {
+
+    return new DownloadTransformerUsageReportUsecase(
+        transformationReportRepository, transformerUsageReportExporter);
+  }
+
+  @Bean
+  ReportExporter<TransformerUsageReport> transformerUsageReportExporter() {
+    return new TransformerUsageReportExporterAdapter(
+        Map.of("CSV", new CsvExporter(), "TXT", new PlainTxtExporter()));
   }
 }

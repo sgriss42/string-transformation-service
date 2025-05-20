@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.gs.incode.services.stringtransformation.persistance.exceptions.UnsupportedExporter;
-import org.gs.incode.services.stringtransformation.persistance.exporters.CsvExporter;
 import org.gs.incode.services.stringtransformation.persistance.exporters.Exporter;
-import org.gs.incode.services.stringtransformation.persistance.exporters.PlainTxtExporter;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 import org.gs.incode.services.stringtransformation.reporting.ports.ReportExporter;
 
@@ -17,8 +15,9 @@ public class TransformerUsageReportExporterAdapter
 
   private final Map<String, Exporter<TransformerUsageReport>> availableExporters;
 
-  public TransformerUsageReportExporterAdapter() {
-    availableExporters = Map.of("CSV", new CsvExporter(), "TEXT", new PlainTxtExporter());
+  public TransformerUsageReportExporterAdapter(
+      Map<String, Exporter<TransformerUsageReport>> adapters) {
+    this.availableExporters = adapters;
   }
 
   @Override
@@ -32,7 +31,7 @@ public class TransformerUsageReportExporterAdapter
   }
 
   private Exporter<TransformerUsageReport> getExporter(String format) {
-    if (availableExporters.containsKey(format)) {
+    if (!availableExporters.containsKey(format)) {
       throw new UnsupportedExporter(format, availableExporters.keySet());
     }
     return availableExporters.get(format);

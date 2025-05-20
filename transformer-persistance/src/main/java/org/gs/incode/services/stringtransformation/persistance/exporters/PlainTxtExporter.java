@@ -10,7 +10,7 @@ public class PlainTxtExporter implements Exporter<TransformerUsageReport> {
       """
   Report for
   \t\tFROM        :${FROM}
-  \t\tTO          :${FROM}
+  \t\tTO          :${TO}
 
 
   TRANSFORMATIONS\t: ${TOTAL_TRANSFORMATIONS}\t (Success: ${SUCCESS_TRANSFORMATIONS}; Failed:${FAILED_TRANSFORMATIONS})
