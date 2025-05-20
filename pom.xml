@@ -14,6 +14,7 @@
         <module>transformer-reporting</module>
         <module>commons</module>
         <module>transformer-persistance</module>
+        <module>container</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,6 +46,11 @@
             <dependency>
                 <groupId>org.gs.incode.services.stringtransformation</groupId>
                 <artifactId>transformer-reporting</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gs.incode.services.stringtransformation</groupId>
+                <artifactId>transformer-persistance</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

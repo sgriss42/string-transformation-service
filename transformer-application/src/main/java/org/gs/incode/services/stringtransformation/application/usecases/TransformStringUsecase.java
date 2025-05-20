@@ -1,9 +1,11 @@
 package org.gs.incode.services.stringtransformation.application.usecases;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.job.Builder;
 import org.gs.incode.services.stringtransformation.job.TransformationJob;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
@@ -22,7 +24,7 @@ public class TransformStringUsecase {
     this.transformationReportRepository = transformationReportRepository;
   }
 
-  public TransformationResponse execute(TransformationCommand command) {
+  public TransformationResponse execute(@Valid TransformationCommand command) {
     log.info("Executing transformation for command: {}", command);
 
     TransformationJobReport report = prepareReport(command);
@@ -37,6 +39,9 @@ public class TransformStringUsecase {
         log.warn("Transformation failed with error: {}", job.getError());
         report.failed(job.getError());
       }
+    } catch (InitTransformationServiceException e) {
+      log.error("Initialization of transformer service is failed", e);
+      throw e;
     } catch (Exception e) {
       log.error("Unexpected error during transformation", e);
       report.failed("Unexpected error: " + e.getMessage());
@@ -48,7 +53,7 @@ public class TransformStringUsecase {
 
   private TransformationResponse prepareTransformResponse(TransformationJobReport report) {
     return new TransformationResponse(
-        report.getId(),
+        report.getId().toString(),
         report.getResult(),
         report.getErrorMessages(),
         report.getIsJobCompletedSuccessfully());
@@ -62,9 +67,17 @@ public class TransformStringUsecase {
 
   protected TransformationJob prepareJob(TransformationCommand command) {
     Builder builder = TransformationJob.builder().input(command.input());
-    for (TransformerTaskConfig conf : command.transformerTaskConfigs()) {
-      builder.addTransformerTask(transformerFactory.construct(conf));
+
+    for (int i = 0; i < command.transformerTaskConfigs().size(); ++i) {
+      TransformerTaskConfig transformerTaskConfig = command.transformerTaskConfigs().get(i);
+      try {
+        builder.addTransformerTask(transformerFactory.construct(transformerTaskConfig));
+      } catch (InitTransformationServiceException e) {
+        throw new InitTransformationServiceException(
+            "Transformer Config #%s is invalid".formatted(i), e);
+      }
     }
+
     return builder.build();
   }
 }

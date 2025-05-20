@@ -2,6 +2,7 @@ package org.gs.incode.services.stringtransformation.transformers.regexp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 
 public class ReplaceExpTransformer extends RegExpTransformer {
   private final String replacement;
@@ -17,7 +18,7 @@ public class ReplaceExpTransformer extends RegExpTransformer {
   public ReplaceExpTransformer(Pattern pattern, String replacement) {
     super(pattern);
     if (replacement == null) {
-      throw new IllegalArgumentException("Replacement  can not be null");
+      throw new InitTransformationServiceException("Replacement cannot be null");
     }
     this.replacement = replacement;
   }

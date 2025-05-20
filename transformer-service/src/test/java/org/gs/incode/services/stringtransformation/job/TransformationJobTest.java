@@ -1,11 +1,13 @@
 package org.gs.incode.services.stringtransformation.job;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
+import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 import org.gs.incode.services.stringtransformation.transformers.UppercaseTransformerTask;
 import org.junit.jupiter.api.Test;
@@ -56,9 +58,9 @@ class TransformationJobTest {
   void whenOneOfTransformationTasksFailedThanJobIsFailed(
       List<TransformerTask> tasks, String expectedErrorMsg) {
     TransformationJob job = new TransformationJob("hello", tasks);
-    String result = job.execute();
+    assertThrows(StringTransformationException.class, job::execute);
 
-    assertNull(result);
+    assertNull(job.getResult());
     assertEquals(Status.FAILED, job.getStatus());
     assertNotNull(job.getError());
     assertFalse(job.isSuccess());
@@ -73,7 +75,7 @@ class TransformationJobTest {
             List.of(new UppercaseTransformerTask(), new FailingTransformer()), "Test failure"),
         Arguments.of(
             List.of(new UppercaseTransformerTask(), nullReturnTask, new UppercaseTransformerTask()),
-            "Transformation task #2 - [TO UPPERCASE TASK] failed:"));
+            "Transformation task #1 -"));
   }
 
   @Test
@@ -89,11 +91,42 @@ class TransformationJobTest {
   }
 
   @Test
-  void whenInputIsNullThanThrowsException() {
-    List<TransformerTask> transformationTasks = List.of(new UppercaseTransformerTask());
+  void whenTransformerTasksIsNullThenThrowTransformationServiceException() {
+    TransformationServiceException ex =
+        assertThrows(
+            TransformationServiceException.class, () -> new TransformationJob("input", null));
+    assertTrue(ex.getMessage().contains("Transformer task"));
+  }
 
-    assertThrows(
-        IllegalArgumentException.class, () -> new TransformationJob(null, transformationTasks));
+  @Test
+  void whenTransformerTaskListExceedsLimitThenThrowTransformationServiceException() {
+    List<TransformerTask> tasks = new ArrayList<>();
+    for (int i = 0; i < TransformationJob.MAX_TRANSFORMER + 1; i++) {
+      tasks.add(mock(TransformerTask.class));
+    }
+
+    TransformationServiceException ex =
+        assertThrows(
+            TransformationServiceException.class, () -> new TransformationJob("input", tasks));
+    assertTrue(ex.getMessage().contains("Too many Transformer Tasks"));
+  }
+
+  @Test
+  void whenTransformerTaskIsNullInListThenThrowTransformationServiceException() {
+    List<TransformerTask> tasks = new ArrayList<>();
+    tasks.add(mock(TransformerTask.class));
+    tasks.add(null);
+
+    TransformationServiceException ex =
+        assertThrows(
+            TransformationServiceException.class, () -> new TransformationJob("input", tasks));
+    assertTrue(ex.getMessage().contains("Transformer task"));
+  }
+
+  @Test
+  void whenValidConfigurationProvidedThenDoNotThrowException() {
+    List<TransformerTask> tasks = List.of(mock(TransformerTask.class));
+    assertDoesNotThrow(() -> new TransformationJob("input", tasks));
   }
 
   static class FailingTransformer implements TransformerTask {
