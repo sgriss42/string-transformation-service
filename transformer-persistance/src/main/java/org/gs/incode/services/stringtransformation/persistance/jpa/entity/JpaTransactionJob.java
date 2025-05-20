@@ -19,7 +19,8 @@ public class JpaTransactionJob implements Serializable {
   @Column(length = 10_000, nullable = false)
   private String input;
 
-  @Lob @Column private String result;
+  @Column(length = 10_000)
+  private String result;
 
   @Column(name = "error_message", length = 500)
   private String errorMessage;

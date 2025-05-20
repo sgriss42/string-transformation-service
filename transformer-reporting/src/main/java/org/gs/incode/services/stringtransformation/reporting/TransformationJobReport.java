@@ -10,7 +10,7 @@ public class TransformationJobReport {
   private TransformationCommand command;
   private String result;
   private Status status;
-  private String errorMessages;
+  private String errorMessage;
   private UUID id;
   private Boolean isJobCompletedSuccessfully;
 
@@ -45,7 +45,7 @@ public class TransformationJobReport {
               .formatted(status));
     }
     isJobCompletedSuccessfully = false;
-    this.errorMessages = errorMessages;
+    this.errorMessage = errorMessages;
     completeReport();
   }
 

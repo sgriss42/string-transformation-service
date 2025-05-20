@@ -12,7 +12,10 @@
     <artifactId>transformer-persistance</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.gs.incode.services.stringtransformation</groupId>
             <artifactId>commons</artifactId>

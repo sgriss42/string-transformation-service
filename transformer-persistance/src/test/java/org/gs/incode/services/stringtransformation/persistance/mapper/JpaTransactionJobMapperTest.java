@@ -111,7 +111,7 @@ class JpaTransactionJobMapperTest {
         jpaTransactionJob.getIsJobCompletedSuccessfully());
     assertEquals(transformationJobReport.getCreatedAt(), jpaTransactionJob.getCreatedAt());
     assertEquals(transformationJobReport.getCompletedAt(), jpaTransactionJob.getCompletedAt());
-    assertEquals(transformationJobReport.getErrorMessages(), jpaTransactionJob.getErrorMessage());
+    assertEquals(transformationJobReport.getErrorMessage(), jpaTransactionJob.getErrorMessage());
 
     assertEquals(1, jpaTransactionJob.getTransformers().size());
     assertEquals(0, jpaTransactionJob.getTransformers().get(0).getId());
@@ -120,5 +120,36 @@ class JpaTransactionJobMapperTest {
     assertEquals(
         "{\"regexp\":\"regexp\",\"replacement\":\"replacement\"}",
         jpaTransactionJob.getTransformers().get(0).getParameters());
+  }
+
+  @Test
+  void toEntity2() {
+    JpaTransactionJobMapper mapper = Mappers.getMapper(JpaTransactionJobMapper.class);
+    TransformationJobReport transformationJobReport = new TransformationJobReport();
+
+    TransformerTaskConfig config = new TransformerTaskConfig(TO_UPPERCASE);
+    config.regexp("regexp");
+    config.replacement("replacement");
+    transformationJobReport.initializeReport(new TransformationCommand("input", List.of(config)));
+    transformationJobReport.failed("ERROR");
+
+    JpaTransactionJob jpaTransactionJob = mapper.toEntity(transformationJobReport);
+    assertEquals("input", jpaTransactionJob.getInput());
+    assertEquals(transformationJobReport.getId(), jpaTransactionJob.getId());
+    assertEquals(transformationJobReport.getResult(), jpaTransactionJob.getResult());
+    assertEquals(
+            transformationJobReport.getIsJobCompletedSuccessfully(),
+            jpaTransactionJob.getIsJobCompletedSuccessfully());
+    assertEquals(transformationJobReport.getCreatedAt(), jpaTransactionJob.getCreatedAt());
+    assertEquals(transformationJobReport.getCompletedAt(), jpaTransactionJob.getCompletedAt());
+    assertEquals(transformationJobReport.getErrorMessage(), jpaTransactionJob.getErrorMessage());
+
+    assertEquals(1, jpaTransactionJob.getTransformers().size());
+    assertEquals(0, jpaTransactionJob.getTransformers().get(0).getId());
+    assertEquals(TO_UPPERCASE, jpaTransactionJob.getTransformers().get(0).getType());
+    assertEquals(jpaTransactionJob, jpaTransactionJob.getTransformers().get(0).getJob());
+    assertEquals(
+            "{\"regexp\":\"regexp\",\"replacement\":\"replacement\"}",
+            jpaTransactionJob.getTransformers().get(0).getParameters());
   }
 }

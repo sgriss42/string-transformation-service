@@ -7,19 +7,18 @@ spring:
       org.hibernate.SQL: DEBUG
       org.hibernate.loader: TRACE
   datasource:
-    url: jdbc:h2:mem:testdbOne;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
     properties:
       hibernate:
-        format_sql: true
-  test:
-    database:
-      replace: none
+        format_sql: ${SPRING_JPA_SHOW_SQL:false}

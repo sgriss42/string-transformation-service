@@ -19,7 +19,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: result
-                  type: CLOB
+                  type: VARCHAR(10000)
               - column:
                   name: error_message
                   type: VARCHAR(500)
@@ -67,9 +67,10 @@ databaseChangeLog:
       id: add-btree-index-created-at
       author: sg
       changes:
-        - sql:
-            dbms: postgresql
-            splitStatements: false
-            sql: |
-              CREATE INDEX idx_transaction_jobs_created_at
-              ON transaction_jobs (created_at) USING BTREE;
+        - createIndex:
+            indexName: idx_transaction_jobs_created_at
+            tableName: transaction_jobs
+            indexType: BTREE
+            columns:
+              - column:
+                  name: created_at

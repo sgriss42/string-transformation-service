@@ -45,7 +45,7 @@ public class TransformationReportAdapter implements TransformationReportReposito
     List<TransformationResult> transformationResults =
         page.stream().map(mapper::toTransformationResult).toList();
     return new PagedResponse<>(
-        transformationResults, page.getTotalPages(), page.getNumber(), page.getSize());
+        transformationResults, page.getTotalElements(), page.getNumber(), page.getSize());
   }
 
   @Override

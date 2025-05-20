@@ -55,7 +55,7 @@ public class TransformStringUsecase {
     return new TransformationResponse(
         report.getId().toString(),
         report.getResult(),
-        report.getErrorMessages(),
+        report.getErrorMessage(),
         report.getIsJobCompletedSuccessfully());
   }
 
