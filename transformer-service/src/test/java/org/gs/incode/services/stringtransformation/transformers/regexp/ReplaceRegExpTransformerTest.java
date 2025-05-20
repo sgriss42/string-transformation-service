@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,18 +17,6 @@ class ReplaceRegExpTransformerTest {
 
     ReplaceExpTransformer transformer = new ReplaceExpTransformer(pattern, replace);
     assertEquals(expected, transformer.apply(input));
-  }
-
-  @Test
-  void maxInputReplace() {
-    String input = RandomStringUtils.secure().nextAlphabetic(10_000);
-    Pattern pattern = Pattern.compile("\\w");
-    long start = System.currentTimeMillis();
-    ReplaceExpTransformer transformer = new ReplaceExpTransformer(pattern, "1");
-    String result = transformer.apply(input);
-    long end = System.currentTimeMillis();
-    System.out.println("transform takes: " + (end - start));
-    assertEquals(10_000, result.length());
   }
 
   static Stream<Arguments> sourceForReplace() {

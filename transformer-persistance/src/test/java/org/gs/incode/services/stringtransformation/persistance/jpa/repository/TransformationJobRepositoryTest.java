@@ -12,6 +12,7 @@ import org.gs.incode.services.stringtransformation.persistance.jpa.entity.JpaTra
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -61,7 +62,8 @@ class TransformationJobRepositoryTest {
 
     repository.save(createJobWithCompletedAt("End", to.minusSeconds(1)));
 
-    var results = repository.findAllByCompletedAtBetween(from, to, PageRequest.of(0, 10));
+    Page<JpaTransactionJob> results =
+        repository.findAllByCompletedAtBetween(from, to, PageRequest.of(0, 10));
 
     assertEquals(5, results.getContent().size());
   }

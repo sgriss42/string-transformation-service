@@ -15,7 +15,7 @@ import org.gs.incode.services.stringtransformation.dtos.TransformerType;
 @Setter
 @ToString
 @NoArgsConstructor
-class TransformationRequest {
+public class TransformationRequest {
   @NotBlank
   @Size(max = 10_000)
   private String input;

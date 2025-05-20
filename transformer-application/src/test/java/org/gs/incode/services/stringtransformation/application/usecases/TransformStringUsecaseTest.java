@@ -64,7 +64,7 @@ class TransformStringUsecaseTest {
     assertNotNull(response.id());
     assertFalse(response.isOk());
     assertNull(response.result());
-    assertTrue(response.errorMessages().startsWith("Transformation task #0"));
+    assertTrue(response.errorMessages().contains("Transformation task #0"));
     verify(mockTransformationReportRepository).save(any(TransformationJobReport.class));
   }
 

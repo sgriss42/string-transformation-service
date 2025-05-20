@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,9 +60,16 @@ public class ApiExceptionHandler {
   }
 
   private static String joinErrorMsg(MethodArgumentNotValidException exception) {
-    return exception.getBindingResult().getFieldErrors().stream()
+    return exception.getAllErrors().stream()
         .map(
-            fieldError -> "%s: %s".formatted(fieldError.getField(), fieldError.getDefaultMessage()))
+            error -> {
+              String name = error.getObjectName();
+              if (error instanceof FieldError fe) {
+                name = fe.getField();
+              }
+
+              return "%s: %s".formatted(name, error.getDefaultMessage());
+            })
         .collect(Collectors.joining("|"));
   }
 }

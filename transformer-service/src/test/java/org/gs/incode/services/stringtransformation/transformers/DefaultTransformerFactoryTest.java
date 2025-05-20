@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Stream;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.regexp.DeleteRegExpTransformer;
 import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceExpTransformer;
 import org.junit.jupiter.api.Test;
@@ -74,7 +75,8 @@ class DefaultTransformerFactoryTest {
       TransformerTaskConfig configuration) {
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
     assertThrows(
-        IllegalArgumentException.class, () -> defaultTransformerFactory.construct(configuration));
+        InitTransformationServiceException.class,
+        () -> defaultTransformerFactory.construct(configuration));
   }
 
   static Stream<TransformerTaskConfig> invalidConfigurationSource() {

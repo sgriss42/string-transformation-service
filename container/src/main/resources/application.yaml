@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    format:
+      date-time: iso
   logging:
     level:
       org.hibernate.SQL: DEBUG

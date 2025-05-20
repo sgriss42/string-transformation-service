@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.container;
 
+import org.gs.incode.services.stringtransformation.application.usecases.GetTransformationsUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.TransformStringUsecase;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.transformers.DefaultTransformerFactory;
@@ -19,5 +20,11 @@ public class BeanConfiguration {
       TransformerFactory transformerFactory,
       TransformationReportRepository transformationReportRepository) {
     return new TransformStringUsecase(transformerFactory, transformationReportRepository);
+  }
+
+  @Bean
+  GetTransformationsUsecase getTransformationsUsecase(
+      TransformationReportRepository transformationReportRepository) {
+    return new GetTransformationsUsecase(transformationReportRepository);
   }
 }

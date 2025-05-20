@@ -3,7 +3,7 @@ package org.gs.incode.services.stringtransformation.transformers;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
-import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.regexp.DeleteRegExpTransformer;
 import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceExpTransformer;
 
@@ -19,7 +19,7 @@ public class DefaultTransformerFactory implements TransformerFactory {
   @Override
   public TransformerTask construct(TransformerTaskConfig configuration) {
     if (configuration == null) {
-      throw new IllegalArgumentException("configuration can not be null!");
+      throw new InitTransformationServiceException("configuration can not be null!");
     }
     return switch (configuration.getType()) {
       case TO_UPPERCASE -> uppercaseTransformerTask;
@@ -33,7 +33,7 @@ public class DefaultTransformerFactory implements TransformerFactory {
 
   protected static Pattern createPatternFromString(TransformerTaskConfig configuration) {
     if (StringUtils.isBlank(configuration.regexp())) {
-      throw new TransformationServiceException("Regular expression cannot be null or blank");
+      throw new InitTransformationServiceException("Regular expression cannot be null or blank");
     }
 
     return Pattern.compile(configuration.regexp());

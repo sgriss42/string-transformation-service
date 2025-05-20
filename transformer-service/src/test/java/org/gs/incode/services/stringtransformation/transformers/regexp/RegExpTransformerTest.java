@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 class RegExpTransformerTest {
 
   @Test
-  void whenStringIsNullThanThrowsNPEException() {
+  void whenStringIsNullThanThrowsException() {
     RegExpTransformer transformer = new DummyRegExpTransformer();
     assertThrows(IllegalArgumentException.class, () -> transformer.apply(null));
   }

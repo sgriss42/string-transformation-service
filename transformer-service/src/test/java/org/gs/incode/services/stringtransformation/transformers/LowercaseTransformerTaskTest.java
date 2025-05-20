@@ -2,6 +2,7 @@ package org.gs.incode.services.stringtransformation.transformers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -9,9 +10,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 class LowercaseTransformerTaskTest {
 
   @Test
-  void whenStringIsNullThanThrowsNPEException() {
+  void whenStringIsNullThanThrowsException() {
     LowercaseTransformerTask transformer = new LowercaseTransformerTask();
-    assertThrows(IllegalArgumentException.class, () -> transformer.apply(null));
+    assertThrows(StringTransformationException.class, () -> transformer.apply(null));
   }
 
   @ParameterizedTest
