@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: transformation_service_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: transformation-server-db
+      POSTGRES_USER: transformation-db-user
+      POSTGRES_PASSWORD: transformation-db-userpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - transformation-service-network
+
+  springboot-app:
+    image: string-transformation-service:latest
+    container_name: transformation_service
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transformation-server-db
+      SPRING_DATASOURCE_USERNAME: transformation-db-user
+      SPRING_DATASOURCE_PASSWORD: transformation-db-userpassword
+      SPRING_JPA_SHOW_SQL: "true"
+    networks:
+      - transformation-service-network
+
+volumes:
+  postgres_data:
+
+networks:
+  transformation-service-network:
+    driver: bridge
