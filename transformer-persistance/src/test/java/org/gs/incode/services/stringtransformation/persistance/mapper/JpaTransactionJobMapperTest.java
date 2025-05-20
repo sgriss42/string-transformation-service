@@ -138,8 +138,8 @@ class JpaTransactionJobMapperTest {
     assertEquals(transformationJobReport.getId(), jpaTransactionJob.getId());
     assertEquals(transformationJobReport.getResult(), jpaTransactionJob.getResult());
     assertEquals(
-            transformationJobReport.getIsJobCompletedSuccessfully(),
-            jpaTransactionJob.getIsJobCompletedSuccessfully());
+        transformationJobReport.getIsJobCompletedSuccessfully(),
+        jpaTransactionJob.getIsJobCompletedSuccessfully());
     assertEquals(transformationJobReport.getCreatedAt(), jpaTransactionJob.getCreatedAt());
     assertEquals(transformationJobReport.getCompletedAt(), jpaTransactionJob.getCompletedAt());
     assertEquals(transformationJobReport.getErrorMessage(), jpaTransactionJob.getErrorMessage());
@@ -149,7 +149,7 @@ class JpaTransactionJobMapperTest {
     assertEquals(TO_UPPERCASE, jpaTransactionJob.getTransformers().get(0).getType());
     assertEquals(jpaTransactionJob, jpaTransactionJob.getTransformers().get(0).getJob());
     assertEquals(
-            "{\"regexp\":\"regexp\",\"replacement\":\"replacement\"}",
-            jpaTransactionJob.getTransformers().get(0).getParameters());
+        "{\"regexp\":\"regexp\",\"replacement\":\"replacement\"}",
+        jpaTransactionJob.getTransformers().get(0).getParameters());
   }
 }

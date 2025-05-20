@@ -14,7 +14,7 @@ class DeleteRegExpTransformerTest {
   @MethodSource("sourceForDelete")
   void delete(String input, String regex, String expected) {
     Pattern pattern = Pattern.compile(regex);
-    DeleteRegExpTransformer transformer = new DeleteRegExpTransformer(pattern);
+    DeleteRegExpTransformer transformer = DeleteRegExpTransformer.of(pattern);
     assertEquals(expected, transformer.apply(input));
   }
 

@@ -1,6 +1,7 @@
 package org.gs.incode.services.stringtransformation.persistance.adapters;
 
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class TransformerUsageReportExporterAdapter
 
   public TransformerUsageReportExporterAdapter(
       Map<String, Exporter<TransformerUsageReport>> adapters) {
-    this.availableExporters = adapters;
+    this.availableExporters = new HashMap<>(adapters);
   }
 
   @Override

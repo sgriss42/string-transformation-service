@@ -15,12 +15,19 @@ public class ReplaceExpTransformer extends RegExpTransformer {
    * @param replacement the string to replace each match with
    * @throws IllegalArgumentException if {@code pattern} or {@code replacement} is {@code null}
    */
-  public ReplaceExpTransformer(Pattern pattern, String replacement) {
+  protected ReplaceExpTransformer(Pattern pattern, String replacement) {
     super(pattern);
+    this.replacement = replacement;
+  }
+
+  public static ReplaceExpTransformer of(Pattern pattern, String replacement) {
     if (replacement == null) {
       throw new InitTransformationServiceException("Replacement cannot be null");
     }
-    this.replacement = replacement;
+    if (pattern == null) {
+      throw new InitTransformationServiceException("Pattern cannot be null");
+    }
+    return new ReplaceExpTransformer(pattern, replacement);
   }
 
   @Override

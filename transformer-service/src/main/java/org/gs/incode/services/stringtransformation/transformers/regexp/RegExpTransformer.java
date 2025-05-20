@@ -2,7 +2,6 @@ package org.gs.incode.services.stringtransformation.transformers.regexp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
 public abstract class RegExpTransformer implements TransformerTask {
@@ -14,10 +13,7 @@ public abstract class RegExpTransformer implements TransformerTask {
    * @param pattern the compiled regular expression pattern used to find matches
    * @throws IllegalArgumentException if {@code pattern} is {@code null}
    */
-  RegExpTransformer(Pattern pattern) {
-    if (pattern == null) {
-      throw new InitTransformationServiceException("Pattern cannot be null");
-    }
+  protected RegExpTransformer(Pattern pattern) {
     this.pattern = pattern;
   }
 

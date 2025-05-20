@@ -26,9 +26,9 @@ class BuilderTest {
 
   @Test
   void whenAllParametersProvidedThanReturnsTransformationJob() {
-    DeleteRegExpTransformer deleteTask = new DeleteRegExpTransformer(Pattern.compile(""));
+    DeleteRegExpTransformer deleteTask = DeleteRegExpTransformer.of(Pattern.compile(""));
     ReplaceExpTransformer replaceTask =
-        new ReplaceExpTransformer(Pattern.compile("pattern"), "replacement");
+        ReplaceExpTransformer.of(Pattern.compile("pattern"), "replacement");
     UppercaseTransformerTask uppercaseTask1 = new UppercaseTransformerTask();
     UppercaseTransformerTask uppercaseTask2 = new UppercaseTransformerTask();
     TransformationJob job =

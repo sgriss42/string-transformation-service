@@ -7,7 +7,7 @@ import org.gs.incode.services.stringtransformation.exceptions.StringTransformati
 import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
-public class TransformationJob {
+public final class TransformationJob {
   public static final int MAX_RESULT_SIZE = 10_000;
   public static final int MAX_TRANSFORMER = 10;
   @Getter private final String input;
@@ -26,7 +26,7 @@ public class TransformationJob {
     validateConfiguration();
   }
 
-  protected void validateConfiguration() {
+  void validateConfiguration() {
     if (input == null) {
       status = Status.FAILED;
       throw new TransformationServiceException("input can not be null!");
@@ -62,7 +62,7 @@ public class TransformationJob {
     };
   }
 
-  protected String applyTransformation() {
+  String applyTransformation() {
     if (transformationTasks.isEmpty()) {
       status = Status.COMPLETED;
       result = input;

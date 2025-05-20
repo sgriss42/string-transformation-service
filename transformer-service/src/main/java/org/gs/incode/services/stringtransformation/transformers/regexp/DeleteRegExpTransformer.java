@@ -1,6 +1,7 @@
 package org.gs.incode.services.stringtransformation.transformers.regexp;
 
 import java.util.regex.Pattern;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 
 public class DeleteRegExpTransformer extends ReplaceExpTransformer {
   /**
@@ -9,8 +10,15 @@ public class DeleteRegExpTransformer extends ReplaceExpTransformer {
    * @param pattern the compiled regular expression pattern used to find matches
    * @throws IllegalArgumentException if {@code pattern} is {@code null}
    */
-  public DeleteRegExpTransformer(Pattern pattern) {
+  private DeleteRegExpTransformer(Pattern pattern) {
     super(pattern, "");
+  }
+
+  public static DeleteRegExpTransformer of(Pattern pattern) {
+    if (pattern == null) {
+      throw new InitTransformationServiceException("Pattern cannot be null");
+    }
+    return new DeleteRegExpTransformer(pattern);
   }
 
   @Override

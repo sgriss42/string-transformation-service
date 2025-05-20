@@ -3,6 +3,7 @@ package org.gs.incode.services.stringtransformation.persistance.exporters;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ public class CsvExporter implements Exporter<TransformerUsageReport> {
     Map<String, String> stringStringMap = report.asMap();
     stringStringMap.forEach((key, value) -> csvBody.add(List.of(key, value)));
     try (CSVPrinter csvPrinter =
-        new CSVPrinter(new PrintWriter(stream), CSVFormat.DEFAULT.withHeader(csvHeader))) {
+        new CSVPrinter(
+            new PrintWriter(stream, false, StandardCharsets.UTF_8),
+            CSVFormat.DEFAULT.withHeader(csvHeader))) {
       for (List<String> line : csvBody) {
         csvPrinter.printRecord(line);
       }

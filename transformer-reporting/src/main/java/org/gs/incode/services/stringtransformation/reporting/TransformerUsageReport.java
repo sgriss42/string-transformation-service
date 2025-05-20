@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
 
 @Getter
-public class TransformerUsageReport implements Report {
+public final class TransformerUsageReport implements Report {
   private final ZonedDateTime from;
   private final ZonedDateTime to;
 

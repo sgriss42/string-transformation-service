@@ -25,9 +25,9 @@ public class DefaultTransformerFactory implements TransformerFactory {
       case TO_UPPERCASE -> uppercaseTransformerTask;
       case TO_LOWERCASE -> lowercaseTransformerTask;
       case REGEXP_REPLACE ->
-          new ReplaceExpTransformer(
+          ReplaceExpTransformer.of(
               createPatternFromString(configuration), configuration.replacement());
-      case REGEXP_DELETE -> new DeleteRegExpTransformer(createPatternFromString(configuration));
+      case REGEXP_DELETE -> DeleteRegExpTransformer.of(createPatternFromString(configuration));
     };
   }
 

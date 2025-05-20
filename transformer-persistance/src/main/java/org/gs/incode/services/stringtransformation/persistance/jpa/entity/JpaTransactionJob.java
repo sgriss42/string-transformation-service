@@ -1,7 +1,6 @@
 package org.gs.incode.services.stringtransformation.persistance.jpa.entity;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "transaction_jobs")
 @Entity
-public class JpaTransactionJob implements Serializable {
+// TODO: mark field  updatable = false
+public class JpaTransactionJob {
   @Id private UUID id;
 
   @Column(length = 10_000, nullable = false)
