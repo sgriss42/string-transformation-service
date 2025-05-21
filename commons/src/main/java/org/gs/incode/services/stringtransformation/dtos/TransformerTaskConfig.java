@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
+import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 
 public class TransformerTaskConfig {
   public static final String PARAMS_REGEXP = "regexp";
@@ -11,9 +12,16 @@ public class TransformerTaskConfig {
   @Getter private final TransformerType type;
   private final Map<String, String> parameters;
 
-  public TransformerTaskConfig(TransformerType type) {
+  private TransformerTaskConfig(TransformerType type) {
     this.type = type;
     parameters = new HashMap<>();
+  }
+
+  public static TransformerTaskConfig of(TransformerType type) {
+    if (type == null) {
+      throw new TransformationServiceException("Type of transformer should not be null");
+    }
+    return new TransformerTaskConfig(type);
   }
 
   public String regexp() {

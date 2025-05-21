@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JpaTransformationTaskId  implements Serializable {
+public class JpaTransformationTaskId implements Serializable {
 
   private Integer id;
   private JpaTransactionJob job;

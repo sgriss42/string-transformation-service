@@ -3,11 +3,9 @@ package org.gs.incode.services.stringtransformation.job;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
-import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 import org.gs.incode.services.stringtransformation.transformers.UppercaseTransformerTask;
 import org.junit.jupiter.api.Test;
@@ -16,18 +14,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class TransformationJobTest {
-  @Test
-  void whenNoTransformationTasksThenReturnsInput() {
-    TransformationJob job = TransformationJob.builder().input("hello").build();
-    String result = job.execute();
-
-    assertSame("hello", result);
-    assertNull(job.getError());
-    assertSame(result, job.getResult());
-    assertEquals(Status.COMPLETED, job.getStatus());
-    assertTrue(job.isSuccess());
-  }
-
   @ParameterizedTest
   @MethodSource("transformationsSource")
   void whenTransformationListIsNotEmptyThanAppliesTransformations(
@@ -88,39 +74,6 @@ class TransformationJobTest {
     assertSame(first, second);
     assertEquals("HELLO", second);
     verify(spyJob).applyTransformation();
-  }
-
-  @Test
-  void whenTransformerTasksIsNullThenThrowTransformationServiceException() {
-    TransformationServiceException ex =
-        assertThrows(
-            TransformationServiceException.class, () -> new TransformationJob("input", null));
-    assertTrue(ex.getMessage().contains("Transformer task"));
-  }
-
-  @Test
-  void whenTransformerTaskListExceedsLimitThenThrowTransformationServiceException() {
-    List<TransformerTask> tasks = new ArrayList<>();
-    for (int i = 0; i < TransformationJob.MAX_TRANSFORMER + 1; i++) {
-      tasks.add(mock(TransformerTask.class));
-    }
-
-    TransformationServiceException ex =
-        assertThrows(
-            TransformationServiceException.class, () -> new TransformationJob("input", tasks));
-    assertTrue(ex.getMessage().contains("Too many Transformer Tasks"));
-  }
-
-  @Test
-  void whenTransformerTaskIsNullInListThenThrowTransformationServiceException() {
-    List<TransformerTask> tasks = new ArrayList<>();
-    tasks.add(mock(TransformerTask.class));
-    tasks.add(null);
-
-    TransformationServiceException ex =
-        assertThrows(
-            TransformationServiceException.class, () -> new TransformationJob("input", tasks));
-    assertTrue(ex.getMessage().contains("Transformer task"));
   }
 
   @Test

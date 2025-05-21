@@ -2,9 +2,12 @@ package org.gs.incode.services.stringtransformation.job;
 
 import static org.gs.incode.services.stringtransformation.job.Status.NEW;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
+import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 import org.gs.incode.services.stringtransformation.transformers.UppercaseTransformerTask;
 import org.gs.incode.services.stringtransformation.transformers.regexp.DeleteRegExpTransformer;
 import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceExpTransformer;
@@ -48,5 +51,24 @@ class BuilderTest {
     assertIterableEquals(
         List.of(uppercaseTask1, deleteTask, uppercaseTask2, replaceTask),
         job.getTransformerTasks());
+  }
+
+  @Test
+  void whenTransformerTaskListExceedsLimitThenThrowTransformationServiceException() {
+    Builder builder = new Builder().input("input");
+    for (int i = 0; i < Builder.MAX_TRANSFORMER + 1; i++) {
+      builder.addTransformerTask(mock(TransformerTask.class));
+    }
+
+    TransformationServiceException ex =
+        assertThrows(TransformationServiceException.class, builder::build);
+    assertTrue(ex.getMessage().contains("Too many Transformer Tasks"));
+  }
+
+  @Test
+  void whenNoTransformationTasksThenThrowException() {
+    Builder builder = new Builder().input("input");
+
+    assertThrows(TransformationServiceException.class, builder::build);
   }
 }

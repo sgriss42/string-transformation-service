@@ -18,7 +18,7 @@ class DefaultTransformerFactoryTest {
   void whenUppercaseTransformerRequestedThanReturnTransformer() {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
-    TransformerTaskConfig configuration = new TransformerTaskConfig(TransformerType.TO_UPPERCASE);
+    TransformerTaskConfig configuration = TransformerTaskConfig.of(TransformerType.TO_UPPERCASE);
 
     TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
     assertNotNull(transformerTask);
@@ -26,14 +26,14 @@ class DefaultTransformerFactoryTest {
     assertSame(
         transformerTask,
         defaultTransformerFactory.construct(
-            new TransformerTaskConfig(TransformerType.TO_UPPERCASE)));
+            TransformerTaskConfig.of(TransformerType.TO_UPPERCASE)));
   }
 
   @Test
   void whenLowercaseTransformerRequestedThanReturnTransformer() {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
-    TransformerTaskConfig configuration = new TransformerTaskConfig(TransformerType.TO_LOWERCASE);
+    TransformerTaskConfig configuration = TransformerTaskConfig.of(TransformerType.TO_LOWERCASE);
 
     TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
     assertNotNull(transformerTask);
@@ -41,14 +41,14 @@ class DefaultTransformerFactoryTest {
     assertSame(
         transformerTask,
         defaultTransformerFactory.construct(
-            new TransformerTaskConfig(TransformerType.TO_LOWERCASE)));
+            TransformerTaskConfig.of(TransformerType.TO_LOWERCASE)));
   }
 
   @Test
   void whenReplaceRegExpTransformerRequestedThanReturnTransformer() {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
-    TransformerTaskConfig configuration = new TransformerTaskConfig(TransformerType.REGEXP_REPLACE);
+    TransformerTaskConfig configuration = TransformerTaskConfig.of(TransformerType.REGEXP_REPLACE);
     configuration.regexp("regexp");
     configuration.replacement("replacement");
 
@@ -61,7 +61,7 @@ class DefaultTransformerFactoryTest {
   void whenDeleteRegExpTransformerRequestedThanReturnTransformer() {
 
     TransformerFactory defaultTransformerFactory = new DefaultTransformerFactory();
-    TransformerTaskConfig configuration = new TransformerTaskConfig(TransformerType.REGEXP_DELETE);
+    TransformerTaskConfig configuration = TransformerTaskConfig.of(TransformerType.REGEXP_DELETE);
     configuration.regexp("regexp");
 
     TransformerTask transformerTask = defaultTransformerFactory.construct(configuration);
@@ -81,17 +81,17 @@ class DefaultTransformerFactoryTest {
 
   static Stream<TransformerTaskConfig> invalidConfigurationSource() {
     TransformerTaskConfig replaceNoPatternAndReplacement =
-        new TransformerTaskConfig(TransformerType.REGEXP_REPLACE);
+        TransformerTaskConfig.of(TransformerType.REGEXP_REPLACE);
     TransformerTaskConfig replaceNoPattern =
-        new TransformerTaskConfig(TransformerType.REGEXP_REPLACE);
+        TransformerTaskConfig.of(TransformerType.REGEXP_REPLACE);
     replaceNoPattern.regexp("[0-1]");
 
     TransformerTaskConfig replaceNoReplacement =
-        new TransformerTaskConfig(TransformerType.REGEXP_REPLACE);
+        TransformerTaskConfig.of(TransformerType.REGEXP_REPLACE);
     replaceNoReplacement.replacement("someText");
 
     TransformerTaskConfig deleteNoPatternAndReplacement =
-        new TransformerTaskConfig(TransformerType.REGEXP_DELETE);
+        TransformerTaskConfig.of(TransformerType.REGEXP_DELETE);
     return Stream.of(
         null,
         replaceNoPatternAndReplacement,

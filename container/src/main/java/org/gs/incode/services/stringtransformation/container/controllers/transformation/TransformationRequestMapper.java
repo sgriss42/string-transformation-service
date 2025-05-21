@@ -23,7 +23,7 @@ class TransformationRequestMapper {
             .map(
                 e -> {
                   TransformerTaskConfig transformerTaskConfig =
-                      new TransformerTaskConfig(e.getType());
+                      TransformerTaskConfig.of(e.getType());
 
                   transformerTaskConfig.replacement(e.getReplacement());
                   transformerTaskConfig.regexp(e.getRegexp());

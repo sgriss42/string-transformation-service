@@ -4,12 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
-import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
 public final class TransformationJob {
   public static final int MAX_RESULT_SIZE = 10_000;
-  public static final int MAX_TRANSFORMER = 10;
   @Getter private final String input;
 
   private final List<TransformerTask> transformationTasks;
@@ -23,35 +21,11 @@ public final class TransformationJob {
     this.input = input;
     this.transformationTasks = transformationTasks;
     status = Status.NEW;
-    validateConfiguration();
   }
 
-  void validateConfiguration() {
-    if (input == null) {
-      status = Status.FAILED;
-      throw new TransformationServiceException("input can not be null!");
-    }
-    if (transformationTasks == null) {
-      status = Status.FAILED;
-      throw new TransformationServiceException("Transformer task should not be null!");
-    }
-    if (transformationTasks.size() > MAX_TRANSFORMER) {
-      status = Status.FAILED;
-      throw new TransformationServiceException(
-          "Too many Transformer Tasks. Allowed: %s, but %s"
-              .formatted(MAX_TRANSFORMER, transformationTasks.size()));
-    }
-    for (int i = 0; i < transformationTasks.size(); ++i) {
-      TransformerTask transformerTask = transformationTasks.get(i);
-      if (transformerTask == null) {
-        status = Status.FAILED;
-        throw new TransformationServiceException("Transformer tasks #%s is invalid".formatted(i));
-      }
-    }
-  }
-
-  public static Builder builder() {
-    return new Builder();
+  public static Builder builder(String input) {
+    Builder builder = new Builder();
+    return builder.input(input);
   }
 
   public String execute() {

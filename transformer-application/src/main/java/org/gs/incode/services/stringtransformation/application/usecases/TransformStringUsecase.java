@@ -66,7 +66,7 @@ public class TransformStringUsecase {
   }
 
   protected TransformationJob prepareJob(TransformationCommand command) {
-    Builder builder = TransformationJob.builder().input(command.input());
+    Builder builder = TransformationJob.builder(command.input());
 
     for (int i = 0; i < command.transformerTaskConfigs().size(); ++i) {
       TransformerTaskConfig transformerTaskConfig = command.transformerTaskConfigs().get(i);
