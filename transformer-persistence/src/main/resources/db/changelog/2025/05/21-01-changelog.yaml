@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1747831476767-1
+      author: rkr
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_transaction_jobs
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: input
+                  type: VARCHAR(10000)
+              - column:
+                  name: result
+                  type: VARCHAR(10000)
+              - column:
+                  name: error_message
+                  type: VARCHAR(500)
+              - column:
+                  name: is_job_completed_successfully
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: completed_at
+                  type: DATETIME
+            tableName: transaction_jobs
+  - changeSet:
+      id: 1747831476767-2
+      author: rkr
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_transaction_task
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_transaction_task
+                  name: job_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(255)
+              - column:
+                  name: parameters
+                  type: TEXT
+            tableName: transaction_task
+  - changeSet:
+      id: 1747831476767-3
+      author: rkr
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: job_id
+            baseTableName: transaction_task
+            constraintName: FK_TRANSACTION_TASK_ON_JOB
+            referencedColumnNames: id
+            referencedTableName: transaction_jobs
+

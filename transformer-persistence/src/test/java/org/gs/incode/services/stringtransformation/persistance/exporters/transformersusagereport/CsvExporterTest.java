@@ -9,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
-import org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport.CsvExporter;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
 import org.gs.incode.services.stringtransformation.reporting.Transformer;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
@@ -48,8 +47,13 @@ class CsvExporterTest {
 
     String result = out.toString(StandardCharsets.UTF_8);
     assertTrue(result.contains("Field,Value"));
-    assertTrue(result.contains("FROM,%s".formatted(now.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT))));
-    assertTrue(result.contains("TO,%s".formatted(to.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT))));
+    assertTrue(
+        result.contains(
+            "FROM,%s"
+                .formatted(now.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT))));
+    assertTrue(
+        result.contains(
+            "TO,%s".formatted(to.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT))));
     assertTrue(result.contains("TOTAL_TRANSFORMATIONS,2"));
     assertTrue(result.contains("FAILED_TRANSFORMATIONS,1"));
     assertTrue(result.contains("SUCCESS_TRANSFORMATIONS,1"));

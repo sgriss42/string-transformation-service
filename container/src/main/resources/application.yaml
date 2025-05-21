@@ -11,6 +11,13 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: ${SPRING_DATASOURCE_HIKARI_IDLE:5}
+      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_POOL_SIZE:20}
+      connection-timeout: ${SPRING_DATASOURCE_HIKARI_CONNECTION_TO:30000}
+      idle-timeout: ${SPRING_DATASOURCE_HIKARI_IDLE_TO:600000}
+      max-lifetime: ${SPRING_DATASOURCE_HIKARI_MAX_LIFETIME:1800000}
+      transaction-isolation: TRANSACTION_READ_COMMITTED
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml

@@ -16,7 +16,6 @@ public class JpaTransformationTaskId implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     JpaTransformationTaskId that = (JpaTransformationTaskId) o;
     return Objects.equals(id, that.id) && Objects.equals(job, that.job);

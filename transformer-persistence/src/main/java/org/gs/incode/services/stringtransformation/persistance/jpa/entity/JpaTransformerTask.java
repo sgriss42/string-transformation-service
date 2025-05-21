@@ -19,10 +19,10 @@ public class JpaTransformerTask {
   JpaTransactionJob job;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
+  @Column(nullable = false, updatable = false)
   private TransformerType type;
 
-  @Column(columnDefinition = "TEXT")
+  @Column(columnDefinition = "TEXT", updatable = false)
   private String parameters;
 
   @Override

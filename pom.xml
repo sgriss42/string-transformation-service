@@ -24,6 +24,7 @@
         <junit-jupiter.version>5.12.2</junit-jupiter.version>
         <mockito-junit-jupiter.version>5.17.0</mockito-junit-jupiter.version>
         <spring-boot-dependencies.version>3.4.5</spring-boot-dependencies.version>
+        <hibernate-core.version>6.5.2.Final</hibernate-core.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
     </properties>
@@ -60,6 +61,11 @@
                 <version>${spring-boot-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
