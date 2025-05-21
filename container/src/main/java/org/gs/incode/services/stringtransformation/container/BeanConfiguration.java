@@ -5,8 +5,8 @@ import org.gs.incode.services.stringtransformation.application.usecases.Download
 import org.gs.incode.services.stringtransformation.application.usecases.GetTransformationsUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.TransformStringUsecase;
 import org.gs.incode.services.stringtransformation.persistance.adapters.TransformerUsageReportExporterAdapter;
-import org.gs.incode.services.stringtransformation.persistance.exporters.CsvExporter;
-import org.gs.incode.services.stringtransformation.persistance.exporters.PlainTxtExporter;
+import org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport.CsvExporter;
+import org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport.PlainTxtExporter;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 import org.gs.incode.services.stringtransformation.reporting.ports.ReportExporter;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;

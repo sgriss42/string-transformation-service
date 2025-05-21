@@ -49,16 +49,4 @@ public final class TransformerUsageReport implements Report {
       }
     }
   }
-
-  public Map<String, String> asMap() {
-    Map<String, String> result = new LinkedHashMap<>();
-    result.put("FROM", from.toString());
-    result.put("TO", to.toString());
-    result.put("TOTAL_TRANSFORMATIONS", String.valueOf(totalTransformationCounter));
-    result.put("FAILED_TRANSFORMATIONS", String.valueOf(failedCounter));
-    result.put("SUCCESS_TRANSFORMATIONS", String.valueOf(successCounter));
-    result.put("TOTAL_TRANSFORMERS", String.valueOf(totalTransformerCounter));
-    statistic.forEach((k, v) -> result.put(k.name(), String.valueOf(v)));
-    return result;
-  }
 }

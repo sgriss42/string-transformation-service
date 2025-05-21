@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.persistance.exporters;
+package org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,7 +12,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.gs.incode.services.stringtransformation.persistance.exceptions.ExporterException;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 
-public class CsvExporter implements Exporter<TransformerUsageReport> {
+public class CsvExporter extends BaseTransformerUsageReportExporter {
   @Override
   public void export(TransformerUsageReport report, OutputStream stream) {
 
@@ -21,7 +21,7 @@ public class CsvExporter implements Exporter<TransformerUsageReport> {
     };
 
     List<List<String>> csvBody = new ArrayList<>();
-    Map<String, String> stringStringMap = report.asMap();
+    Map<String, String> stringStringMap = toMap(report);
     stringStringMap.forEach((key, value) -> csvBody.add(List.of(key, value)));
     try (CSVPrinter csvPrinter =
         new CSVPrinter(

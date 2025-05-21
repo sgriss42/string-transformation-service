@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.reporting;
+package org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -8,11 +8,15 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
+import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
+import org.gs.incode.services.stringtransformation.reporting.Transformer;
+import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 import org.junit.jupiter.api.Test;
 
-class TransformerUsageReportTest {
+class BaseTransformerUsageReportExporterTest {
+
   @Test
-  void addToStatistic() {
+  void toMap() {
     Transformer mockUppercaseTransformer = mockTransformer(TransformerType.TO_UPPERCASE);
     Transformer mockLowercaseTransformer = mockTransformer(TransformerType.TO_LOWERCASE);
 
@@ -26,21 +30,26 @@ class TransformerUsageReportTest {
 
     ZonedDateTime to = ZonedDateTime.now();
     ZonedDateTime from = to.minusDays(1);
-
     TransformerUsageReport report = new TransformerUsageReport(from, to);
     report.addToStatistic(List.of(successJob, failedJob));
-
-    assertEquals(to, report.getTo());
-    assertEquals(from, report.getFrom());
-
-    assertEquals(2, report.getTotalTransformationCounter());
-    assertEquals(1, report.getFailedCounter());
-    assertEquals(1, report.getSuccessCounter());
-    assertEquals(4L, report.getTotalTransformerCounter());
-
-    Map<TransformerType, Long> stats = report.getStatistic();
-    assertEquals(3L, stats.get(TransformerType.TO_UPPERCASE));
-    assertEquals(1L, stats.get(TransformerType.TO_LOWERCASE));
+    BaseTransformerUsageReportExporter baseTransformerUsageReportExporterTest =
+        new PlainTxtExporter();
+    Map<String, String> stringStringMap = baseTransformerUsageReportExporterTest.toMap(report);
+    assertEquals(10, stringStringMap.size());
+    assertEquals(
+        from.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT),
+        stringStringMap.get("FROM"));
+    assertEquals(
+        to.format(BaseTransformerUsageReportExporter.DEFAULT_DATE_FORMAT),
+        stringStringMap.get("TO"));
+    assertEquals("2", stringStringMap.get("TOTAL_TRANSFORMATIONS"));
+    assertEquals("1", stringStringMap.get("FAILED_TRANSFORMATIONS"));
+    assertEquals("1", stringStringMap.get("SUCCESS_TRANSFORMATIONS"));
+    assertEquals("4", stringStringMap.get("TOTAL_TRANSFORMERS"));
+    assertEquals("3", stringStringMap.get("TO_UPPERCASE"));
+    assertEquals("1", stringStringMap.get("TO_LOWERCASE"));
+    assertEquals("0", stringStringMap.get("REGEXP_REPLACE"));
+    assertEquals("0", stringStringMap.get("REGEXP_DELETE"));
   }
 
   private TransformationResultWithTransformers getMockTransformationResult(

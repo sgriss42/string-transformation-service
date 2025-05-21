@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.persistance.exporters;
+package org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.text.StringSubstitutor;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 
-public class PlainTxtExporter implements Exporter<TransformerUsageReport> {
+public class PlainTxtExporter extends BaseTransformerUsageReportExporter {
   private static final String DEFAULT_TEMPLATE =
       """
   Report for
@@ -24,7 +24,7 @@ public class PlainTxtExporter implements Exporter<TransformerUsageReport> {
 
   @Override
   public void export(TransformerUsageReport report, OutputStream stream) {
-    String formatted = StringSubstitutor.replace(DEFAULT_TEMPLATE, report.asMap(), "${", "}");
+    String formatted = StringSubstitutor.replace(DEFAULT_TEMPLATE, toMap(report), "${", "}");
     try (PrintWriter writer = new PrintWriter(stream, false, StandardCharsets.UTF_8)) {
       writer.println(formatted);
       writer.flush();

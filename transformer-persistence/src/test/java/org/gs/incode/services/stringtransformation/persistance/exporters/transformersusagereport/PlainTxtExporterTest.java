@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.persistance.exporters;
+package org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import org.gs.incode.services.stringtransformation.dtos.TransformerType;
+import org.gs.incode.services.stringtransformation.persistance.exporters.transformersusagereport.PlainTxtExporter;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
 import org.gs.incode.services.stringtransformation.reporting.Transformer;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;

@@ -1,7 +1,7 @@
 # ENV  VARS:
-## POSTGRES_DB: transformation-server-db
-## POSTGRES_USER: transformation-db-user
-## POSTGRES_PASSWORD: transformation-db-userpassword
+## SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transformation-server-db
+## SPRING_DATASOURCE_USERNAME: transformation-db-user
+## SPRING_DATASOURCE_PASSWORD: transformation-db-userpassword
 # Build:
 ### docker build -t string-transformation-service .
 ### docker-compose -f infrastructure/docker/docker-compose.yaml up --build
