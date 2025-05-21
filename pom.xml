@@ -13,7 +13,7 @@
         <module>transformer-application</module>
         <module>transformer-reporting</module>
         <module>commons</module>
-        <module>transformer-persistance</module>
+        <module>transformer-persistence</module>
         <module>container</module>
     </modules>
     <properties>

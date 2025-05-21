@@ -1,5 +1,6 @@
 package org.gs.incode.services.stringtransformation.persistance.jpa.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JpaTransformationTaskId {
+public class JpaTransformationTaskId  implements Serializable {
 
   private Integer id;
   private JpaTransactionJob job;

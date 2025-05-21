@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 class TransformerUsageReportExporterAdapterTest {
 
-  private Exporter<TransformerUsageReport> mockCsvExporter = mock(Exporter.class);
-  private Exporter<TransformerUsageReport> mockTextExporter = mock(Exporter.class);
-  private TransformerUsageReportExporterAdapter adapter =
+  private final Exporter<TransformerUsageReport> mockCsvExporter = mock(Exporter.class);
+  private final Exporter<TransformerUsageReport> mockTextExporter = mock(Exporter.class);
+  private final TransformerUsageReportExporterAdapter adapter =
       new TransformerUsageReportExporterAdapter(
           Map.of("CSV", mockCsvExporter, "TEXT", mockTextExporter));
 
@@ -36,10 +36,7 @@ class TransformerUsageReportExporterAdapterTest {
 
     UnsupportedExporter ex =
         assertThrows(
-            UnsupportedExporter.class,
-            () -> {
-              adapter.export(mockReport, "XML", mockOutPutStream);
-            });
+            UnsupportedExporter.class, () -> adapter.export(mockReport, "XML", mockOutPutStream));
 
     assertTrue(ex.getMessage().contains("XML"));
   }
