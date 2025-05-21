@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
+import org.gs.incode.services.stringtransformation.application.usecases.dto.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;

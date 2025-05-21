@@ -4,7 +4,7 @@ import java.io.OutputStream;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
+import org.gs.incode.services.stringtransformation.application.usecases.dto.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;

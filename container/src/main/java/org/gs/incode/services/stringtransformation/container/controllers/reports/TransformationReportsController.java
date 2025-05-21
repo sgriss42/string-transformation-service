@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
-import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.application.usecases.DownloadTransformerUsageReportUsecase;
 import org.gs.incode.services.stringtransformation.application.usecases.GetTransformationsUsecase;
+import org.gs.incode.services.stringtransformation.application.usecases.dto.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
@@ -63,7 +63,7 @@ public class TransformationReportsController {
   }
 
   @GetMapping("/transformations/reports")
-  public void downloadCsv(
+  public void exportStatistics(
       HttpServletResponse response, @Valid DownloadReportRequest downloadReportRequest)
       throws IOException {
 

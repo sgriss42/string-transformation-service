@@ -1,4 +1,4 @@
-package org.gs.incode.services.stringtransformation.application.usecases;
+package org.gs.incode.services.stringtransformation.application.usecases.dto;
 
 import jakarta.validation.constraints.NotNull;
 import java.io.OutputStream;

@@ -20,11 +20,23 @@ abstract class LocaleAwareTransformerTask implements TransformerTask {
     }
     try {
       Locale newLocale = Locale.forLanguageTag(langTag);
-      newLocale.getISO3Language();
-      newLocale.getISO3Country();
+      validateLocale(newLocale);
       return newLocale;
     } catch (MissingResourceException e) {
       throw new InitTransformationServiceException("Invalid locale format: " + langTag, e);
     }
+  }
+
+  /**
+   * Validates the given locale, ensuring that it has valid ISO3 language and country codes.
+   *
+   * @param newLocale the locale to validate; must not be null and must have valid ISO3 language and
+   *     country codes
+   * @throws MissingResourceException if the locale does not have valid ISO3 language or country
+   *     codes
+   */
+  private void validateLocale(Locale newLocale) {
+    newLocale.getISO3Language();
+    newLocale.getISO3Country();
   }
 }

@@ -3,6 +3,7 @@ package org.gs.incode.services.stringtransformation.application.usecases;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.gs.incode.services.stringtransformation.application.usecases.dto.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResultWithTransformers;
 import org.gs.incode.services.stringtransformation.reporting.TransformerUsageReport;
 import org.gs.incode.services.stringtransformation.reporting.ports.ReportExporter;
