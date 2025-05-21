@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 import org.gs.incode.services.stringtransformation.application.usecases.DownloadReportQuery;
 import org.gs.incode.services.stringtransformation.application.usecases.DownloadTransformerUsageReportUsecase;
@@ -54,7 +56,7 @@ public class TransformationReportsController {
   })
   public PagedResponse<TransformationResult> findTransformations(
       @Valid TransformationSearchRequest transformationSearchRequest,
-      @Parameter(hidden = true) @PageableDefault(page = 0, size = 10) Pageable pageable) {
+      @Parameter(hidden = true) @PageableDefault Pageable pageable) {
     TransformationSearchQuery query =
         mapper.searchRequestToTransformationSearchQuery(transformationSearchRequest, pageable);
     return getTransformationsUsecase.execute(query);
@@ -74,9 +76,10 @@ public class TransformationReportsController {
 
   private void prepareHeaders(
       HttpServletResponse response, DownloadReportRequest downloadReportRequest) {
+    String encodedName = URLEncoder.encode(downloadReportRequest.name(), StandardCharsets.UTF_8);
+
     response.setContentType("application/octet-stream");
-    response.setHeader(
-        "Content-Disposition", "attachment; filename=\"" + downloadReportRequest.name() + "\"");
+    response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedName + "\"");
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
