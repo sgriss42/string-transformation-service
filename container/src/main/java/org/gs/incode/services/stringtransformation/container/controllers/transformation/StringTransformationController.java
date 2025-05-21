@@ -1,7 +1,6 @@
 package org.gs.incode.services.stringtransformation.container.controllers.transformation;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.gs.incode.services.stringtransformation.application.usecases.TransformStringUsecase;
 import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 public class StringTransformationController {
@@ -24,7 +22,7 @@ public class StringTransformationController {
   }
 
   @PostMapping("/transformations")
-  TransformationResponse transform(@Valid @RequestBody TransformationRequest request) {
+  public TransformationResponse transform(@Valid @RequestBody TransformationRequest request) {
     TransformationCommand transformationCommand =
         mapper.transformationRequestToTransformationCommand(request);
     return usecase.execute(transformationCommand);

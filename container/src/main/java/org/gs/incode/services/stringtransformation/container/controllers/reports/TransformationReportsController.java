@@ -60,7 +60,7 @@ public class TransformationReportsController {
     return getTransformationsUsecase.execute(query);
   }
 
-  @GetMapping("/transformations/report")
+  @GetMapping("/transformations/reports")
   public void downloadCsv(
       HttpServletResponse response, @Valid DownloadReportRequest downloadReportRequest)
       throws IOException {

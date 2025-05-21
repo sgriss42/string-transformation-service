@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
-import org.gs.incode.services.stringtransformation.transformers.UppercaseTransformerTask;
+import org.gs.incode.services.stringtransformation.transformers.localeaware.UppercaseTransformerTask;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

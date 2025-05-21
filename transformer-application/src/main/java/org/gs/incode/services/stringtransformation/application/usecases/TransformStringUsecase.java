@@ -6,8 +6,8 @@ import org.gs.incode.services.stringtransformation.dtos.TransformationCommand;
 import org.gs.incode.services.stringtransformation.dtos.TransformationResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformerTaskConfig;
 import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
-import org.gs.incode.services.stringtransformation.job.Builder;
 import org.gs.incode.services.stringtransformation.job.TransformationJob;
+import org.gs.incode.services.stringtransformation.job.TransformationJobBuilder;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.transformers.TransformerFactory;
@@ -66,18 +66,19 @@ public class TransformStringUsecase {
   }
 
   protected TransformationJob prepareJob(TransformationCommand command) {
-    Builder builder = TransformationJob.builder(command.input());
+    TransformationJobBuilder transformationJobBuilder = TransformationJob.builder(command.input());
 
     for (int i = 0; i < command.transformerTaskConfigs().size(); ++i) {
       TransformerTaskConfig transformerTaskConfig = command.transformerTaskConfigs().get(i);
       try {
-        builder.addTransformerTask(transformerFactory.construct(transformerTaskConfig));
+        transformationJobBuilder.addTransformerTask(
+            transformerFactory.construct(transformerTaskConfig));
       } catch (InitTransformationServiceException e) {
         throw new InitTransformationServiceException(
             "Transformer Config #%s is invalid".formatted(i), e);
       }
     }
 
-    return builder.build();
+    return transformationJobBuilder.build();
   }
 }

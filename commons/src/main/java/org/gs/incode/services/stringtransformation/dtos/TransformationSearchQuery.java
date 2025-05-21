@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.Data;
 
-// TODO validate from < to
-// TODO add  ordering
 @Data
 public class TransformationSearchQuery {
 

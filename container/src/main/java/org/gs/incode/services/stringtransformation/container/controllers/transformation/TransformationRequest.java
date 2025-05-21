@@ -38,5 +38,8 @@ public class TransformationRequest {
 
     @Size(max = 100)
     private String replacement;
+
+    @Size(max = 10)
+    private String locale;
   }
 }

@@ -1,9 +1,15 @@
-package org.gs.incode.services.stringtransformation.transformers;
+package org.gs.incode.services.stringtransformation.transformers.localeaware;
 
 import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
 
-// TODO INTRODUCE LOCALE SUPPORT!!!
-public class UppercaseTransformerTask implements TransformerTask {
+public class UppercaseTransformerTask extends LocaleAwareTransformerTask {
+  public UppercaseTransformerTask() {
+    this(null);
+  }
+
+  public UppercaseTransformerTask(String locale) {
+    super(locale);
+  }
 
   @Override
   public String apply(String input) {
@@ -14,7 +20,7 @@ public class UppercaseTransformerTask implements TransformerTask {
       return input;
     }
 
-    return input.toUpperCase();
+    return input.toUpperCase(locale);
   }
 
   @Override

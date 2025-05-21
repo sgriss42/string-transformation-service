@@ -12,6 +12,7 @@ import org.gs.incode.services.stringtransformation.job.TransformationJob;
 import org.gs.incode.services.stringtransformation.reporting.TransformationJobReport;
 import org.gs.incode.services.stringtransformation.reporting.ports.TransformationReportRepository;
 import org.gs.incode.services.stringtransformation.transformers.*;
+import org.gs.incode.services.stringtransformation.transformers.localeaware.UppercaseTransformerTask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +56,7 @@ class TransformStringUsecaseTest {
     TransformationCommand command =
         new TransformationCommand(input, List.of(mock(TransformerTaskConfig.class)));
     TransformerTask failed =
-        (s) -> {
+        s -> {
           throw new IllegalArgumentException();
         };
     when(mockTransformerFactory.construct(any())).thenReturn(failed);

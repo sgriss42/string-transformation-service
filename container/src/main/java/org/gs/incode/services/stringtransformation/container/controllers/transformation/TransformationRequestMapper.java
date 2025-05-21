@@ -27,6 +27,7 @@ class TransformationRequestMapper {
 
                   transformerTaskConfig.replacement(e.getReplacement());
                   transformerTaskConfig.regexp(e.getRegexp());
+                  transformerTaskConfig.locale(e.getLocale());
 
                   return transformerTaskConfig;
                 })

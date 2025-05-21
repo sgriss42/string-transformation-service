@@ -9,6 +9,7 @@ import org.gs.incode.services.stringtransformation.exceptions.TransformationServ
 public class TransformerTaskConfig {
   public static final String PARAMS_REGEXP = "regexp";
   public static final String PARAMS_REPLACEMENT = "replacement";
+  public static final String PARAMS_LOCALE = "locale";
   @Getter private final TransformerType type;
   private final Map<String, String> parameters;
 
@@ -32,12 +33,20 @@ public class TransformerTaskConfig {
     return parameters.get(PARAMS_REPLACEMENT);
   }
 
+  public String locale() {
+    return parameters.get(PARAMS_LOCALE);
+  }
+
   public void regexp(String regexp) {
     parameters.put(PARAMS_REGEXP, regexp);
   }
 
   public void replacement(String replacement) {
     parameters.put(PARAMS_REPLACEMENT, replacement);
+  }
+
+  public void locale(String locale) {
+    parameters.put(PARAMS_LOCALE, locale);
   }
 
   public Map<String, String> getParameters() {

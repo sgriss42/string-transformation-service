@@ -7,15 +7,13 @@ import org.gs.incode.services.stringtransformation.exceptions.TransformationServ
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class ApiExceptionHandler {
   @ResponseBody
-  @org.springframework.web.bind.annotation.ExceptionHandler(Throwable.class)
+  @ExceptionHandler(Throwable.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorResponse handleException(Throwable exception) {
     log.error(exception.getMessage(), exception);
@@ -26,7 +24,7 @@ public class ApiExceptionHandler {
   }
 
   @ResponseBody
-  @org.springframework.web.bind.annotation.ExceptionHandler(TransformationServiceException.class)
+  @ExceptionHandler(TransformationServiceException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorResponse handleException(TransformationServiceException exception) {
     log.error(exception.getMessage(), exception);
@@ -37,7 +35,7 @@ public class ApiExceptionHandler {
   }
 
   @ResponseBody
-  @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleException(MethodArgumentNotValidException exception) {
     log.error(exception.getMessage(), exception);
@@ -48,8 +46,7 @@ public class ApiExceptionHandler {
   }
 
   @ResponseBody
-  @org.springframework.web.bind.annotation.ExceptionHandler(
-      InitTransformationServiceException.class)
+  @ExceptionHandler(InitTransformationServiceException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleException(InitTransformationServiceException exception) {
     log.error(exception.getMessage(), exception);

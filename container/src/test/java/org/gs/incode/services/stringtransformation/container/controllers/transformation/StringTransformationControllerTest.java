@@ -37,7 +37,7 @@ class StringTransformationControllerTest {
   @Mock private TransformationRequestMapper mockMapper;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     objectMapper = JsonMapper.builder().build();
     mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

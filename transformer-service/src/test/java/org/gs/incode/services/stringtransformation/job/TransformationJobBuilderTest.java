@@ -6,25 +6,29 @@ import static org.mockito.Mockito.mock;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import org.gs.incode.services.stringtransformation.exceptions.InitTransformationServiceException;
 import org.gs.incode.services.stringtransformation.exceptions.TransformationServiceException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
-import org.gs.incode.services.stringtransformation.transformers.UppercaseTransformerTask;
+import org.gs.incode.services.stringtransformation.transformers.localeaware.UppercaseTransformerTask;
 import org.gs.incode.services.stringtransformation.transformers.regexp.DeleteRegExpTransformer;
 import org.gs.incode.services.stringtransformation.transformers.regexp.ReplaceExpTransformer;
 import org.junit.jupiter.api.Test;
 
-class BuilderTest {
+class TransformationJobBuilderTest {
 
   @Test
   void whenAddNullAsInputThanThrowsException() {
-    Builder builder = new Builder();
-    assertThrows(IllegalArgumentException.class, () -> builder.input(null));
+    TransformationJobBuilder transformationJobBuilder = new TransformationJobBuilder();
+    assertThrows(
+        InitTransformationServiceException.class, () -> transformationJobBuilder.input(null));
   }
 
   @Test
   void whenAddNullAsTransformTaskThanThrowsException() {
-    Builder builder = new Builder();
-    assertThrows(IllegalArgumentException.class, () -> builder.addTransformerTask(null));
+    TransformationJobBuilder transformationJobBuilder = new TransformationJobBuilder();
+    assertThrows(
+        InitTransformationServiceException.class,
+        () -> transformationJobBuilder.addTransformerTask(null));
   }
 
   @Test
@@ -35,7 +39,7 @@ class BuilderTest {
     UppercaseTransformerTask uppercaseTask1 = new UppercaseTransformerTask();
     UppercaseTransformerTask uppercaseTask2 = new UppercaseTransformerTask();
     TransformationJob job =
-        new Builder()
+        new TransformationJobBuilder()
             .addTransformerTask(uppercaseTask1)
             .addTransformerTask(deleteTask)
             .addTransformerTask(uppercaseTask2)
@@ -55,20 +59,22 @@ class BuilderTest {
 
   @Test
   void whenTransformerTaskListExceedsLimitThenThrowTransformationServiceException() {
-    Builder builder = new Builder().input("input");
-    for (int i = 0; i < Builder.MAX_TRANSFORMER + 1; i++) {
-      builder.addTransformerTask(mock(TransformerTask.class));
+    TransformationJobBuilder transformationJobBuilder =
+        new TransformationJobBuilder().input("input");
+    for (int i = 0; i < TransformationJobBuilder.MAX_TRANSFORMER + 1; i++) {
+      transformationJobBuilder.addTransformerTask(mock(TransformerTask.class));
     }
 
     TransformationServiceException ex =
-        assertThrows(TransformationServiceException.class, builder::build);
+        assertThrows(TransformationServiceException.class, transformationJobBuilder::build);
     assertTrue(ex.getMessage().contains("Too many Transformer Tasks"));
   }
 
   @Test
   void whenNoTransformationTasksThenThrowException() {
-    Builder builder = new Builder().input("input");
+    TransformationJobBuilder transformationJobBuilder =
+        new TransformationJobBuilder().input("input");
 
-    assertThrows(TransformationServiceException.class, builder::build);
+    assertThrows(TransformationServiceException.class, transformationJobBuilder::build);
   }
 }

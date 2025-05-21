@@ -20,6 +20,7 @@ class TransformationRequestMapperTest {
     task.setType(REGEXP_REPLACE);
     task.setReplacement("a");
     task.setRegexp("b");
+    task.setLocale("c");
 
     TransformationRequest request = new TransformationRequest();
     request.setInput("hello");
@@ -34,6 +35,7 @@ class TransformationRequestMapperTest {
     assertEquals(REGEXP_REPLACE, config.getType());
     assertEquals("a", config.replacement());
     assertEquals("b", config.regexp());
+    assertEquals("c", config.locale());
   }
 
   @Test

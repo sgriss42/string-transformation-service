@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.gs.incode.services.stringtransformation.exceptions.StringTransformationException;
 import org.gs.incode.services.stringtransformation.transformers.TransformerTask;
 
-public final class TransformationJob {
+public class TransformationJob {
   public static final int MAX_RESULT_SIZE = 10_000;
   @Getter private final String input;
 
@@ -23,20 +23,31 @@ public final class TransformationJob {
     status = Status.NEW;
   }
 
-  public static Builder builder(String input) {
-    Builder builder = new Builder();
-    return builder.input(input);
+  public static TransformationJobBuilder builder(String input) {
+    TransformationJobBuilder transformationJobBuilder = new TransformationJobBuilder();
+    return transformationJobBuilder.input(input);
   }
 
+  /**
+   * Executes the transformation job based on the current status. If the status is {@code
+   * COMPLETED}, returns the previously computed result. If the status is {@code NEW}, initiates and
+   * applies the transformation through a series of tasks. If the status is {@code FAILED}, throws a
+   * {@code StringTransformationException} with the associated error message.
+   *
+   * @return The transformed string if the job completes successfully or the previously computed
+   *     result.
+   * @throws StringTransformationException If the status is {@code FAILED} or if a transformation
+   *     task fails.
+   */
   public String execute() {
     return switch (status) {
       case COMPLETED -> result;
       case NEW -> applyTransformation();
-      case FAILED -> null;
+      case FAILED -> throw new StringTransformationException(error);
     };
   }
 
-  String applyTransformation() {
+  protected String applyTransformation() {
     if (transformationTasks.isEmpty()) {
       status = Status.COMPLETED;
       result = input;
