@@ -1,5 +1,9 @@
 package org.gs.incode.services.stringtransformation.container.controllers.reports;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -11,6 +15,7 @@ import org.gs.incode.services.stringtransformation.dtos.PagedResponse;
 import org.gs.incode.services.stringtransformation.dtos.TransformationSearchQuery;
 import org.gs.incode.services.stringtransformation.reporting.TransformationResult;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +39,22 @@ public class TransformationReportsController {
   }
 
   @GetMapping("/transformations")
+  @Parameters({
+    @Parameter(
+        in = ParameterIn.QUERY,
+        description = "Zero-based page index (0..N)",
+        name = "page",
+        schema = @Schema(type = "integer", defaultValue = "0")),
+    @Parameter(
+        in = ParameterIn.QUERY,
+        description = "The size of the page to be returned",
+        name = "size",
+        schema = @Schema(type = "integer", defaultValue = "20")),
+    @Parameter(hidden = true, in = ParameterIn.QUERY, name = "sort")
+  })
   public PagedResponse<TransformationResult> findTransformations(
-      @Valid TransformationSearchRequest transformationSearchRequest, Pageable pageable) {
+      @Valid TransformationSearchRequest transformationSearchRequest,
+      @Parameter(hidden = true) @PageableDefault(page = 0, size = 10) Pageable pageable) {
     TransformationSearchQuery query =
         mapper.searchRequestToTransformationSearchQuery(transformationSearchRequest, pageable);
     return getTransformationsUsecase.execute(query);
